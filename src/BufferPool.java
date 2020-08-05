@@ -9,7 +9,7 @@ public class BufferPool {
     
     // return null if out of bounds  i.e. if index == -1
     public Record read(int index) {
-        return new Record();
+        return new Record((short)0, (short)0);
     }
     
     public void write(int index, Record updated) {
