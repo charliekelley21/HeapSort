@@ -1,7 +1,7 @@
 
 /**
  * The Max-Heap that will sort the external file.
- * 
+ *
  * @author Charlie Kelley (charlk21)
  * @author Barak Finnegan (bjfinn98)
  * @version 2020.08.05
@@ -23,9 +23,9 @@ public class MaxHeap {
 
     /**
      * The public constructor for MaxHeap
-     * 
-     * @param fileName
-     *            int that will be the internal size of the heap
+     *
+     * @param newPool
+     *            BufferPool used by MaxHeap
      */
     public MaxHeap(BufferPool newPool) {
         pool = newPool;
@@ -80,8 +80,8 @@ public class MaxHeap {
 
     /**
      * This is the internal heapify method
-     * 
-     * @param location
+     *
+     * @param pos
      *            The location to perform heapify
      */
     private void heapify(int pos) {
@@ -102,7 +102,7 @@ public class MaxHeap {
         pool.write(childIndex, curr);
         heapify(childIndex);
     }
-    
+
     private Record removeMax() {
         if (size == 0) {
             return null;
@@ -113,7 +113,7 @@ public class MaxHeap {
         pool.write(size, max);
         return rm;
     }
-    
+
     public BufferStatistics heapSort(int length) {
         if (length <= 0) {
             return pool.getStats();
@@ -122,6 +122,6 @@ public class MaxHeap {
         buildMaxHeap();
         return heapSort(length - 1);
     }
-    
-    
+
+
 }

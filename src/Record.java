@@ -6,5 +6,4 @@ public class Record {
     public short getKey() {
         return key;
     }
-
 }
