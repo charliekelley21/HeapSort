@@ -8,11 +8,11 @@
  */
 public class MaxHeap {
 
- // Setting up vars
+    // Setting up vars
     private final int numRecords;
     private int size;
     private BufferPool pool;
-    
+
     /**
      * The public constructor for MaxHeap
      */
@@ -20,33 +20,6 @@ public class MaxHeap {
         numRecords = 0;
         size = 0;
     }
-    
-    public int heapSize() {
-        return size;
-    }
-    
-    boolean isLeaf(int pos) {
-        return (pos >= size/2) && (pos < size);
-    }
-    
- // Return position for left child of pos
-    int leftchild(int pos) {
-      if (pos >= size/2) return -1;
-      return 2*pos + 1;
-    }
-
-    // Return position for right child of pos
-    int rightchild(int pos) {
-      if (pos >= (size-1)/2) return -1;
-      return 2*pos + 2;
-    }
-    
- // Return position for parent
-    int parent(int pos) {
-      if (pos <= 0) return -1;
-      return (pos-1)/2;
-    }
-
 
     /**
      * The public constructor for MaxHeap
@@ -58,8 +31,43 @@ public class MaxHeap {
         pool = newPool;
         numRecords = pool.getNumRecords();
         size = numRecords;
+        buildMaxHeap();
     }
-    
+
+    public int heapSize() {
+        return size;
+    }
+
+
+    boolean isLeaf(int pos) {
+        return (pos >= size / 2) && (pos < size);
+    }
+
+
+    // Return position for left child of pos
+    int leftchild(int pos) {
+        if (pos >= size / 2)
+            return -1;
+        return 2 * pos + 1;
+    }
+
+
+    // Return position for right child of pos
+    int rightchild(int pos) {
+        if (pos >= (size - 1) / 2)
+            return -1;
+        return 2 * pos + 2;
+    }
+
+
+    // Return position for parent
+    int parent(int pos) {
+        if (pos <= 0)
+            return -1;
+        return (pos - 1) / 2;
+    }
+
+
     /**
      * Will construct a max heap from the items in heap
      */
@@ -76,24 +84,44 @@ public class MaxHeap {
      * @param location
      *            The location to perform heapify
      */
-    private void heapify(int location) {
-        Record left = pool.read(2 * location + 1);
-        Record right = pool.read(2 * location + 2);
-        int smallest_index;
-        if (left < size && heap[left] < heap[location]) {
-            smallest_index = left;
-            if (right < size && heap[right] < heap[left]) {
-                smallest_index = right;
-            }
+    private void heapify(int pos) {
+        int childIndex = leftchild(pos);
+        Record curr = pool.read(pos);
+        if (curr == null || isLeaf(pos)) {
+            return;
         }
-        else {
-            smallest_index = location;
+        Record child = pool.read(childIndex);
+        if (child != null && child.getKey() < curr.getKey()) {
+            childIndex = rightchild(pos);
+            child = pool.read(childIndex);
         }
-        if (smallest_index != location) {
-            int temp = heap[location];
-            heap[location] = heap[smallest_index];
-            heap[smallest_index] = temp;
-            heapify(smallest_index);
+        if (child != null && curr.getKey() >= child.getKey()) {
+            return;
         }
+        pool.write(pos, child);
+        pool.write(childIndex, curr);
+        heapify(childIndex);
     }
+    
+    private Record removeMax() {
+        if (size == 0) {
+            return null;
+        }
+        Record max = pool.read(0);
+        Record rm = pool.read(size--);
+        pool.write(0, rm);
+        pool.write(size, max);
+        return rm;
+    }
+    
+    public BufferStatistics heapSort(int length) {
+        if (length <= 0) {
+            return pool.getStats();
+        }
+        removeMax();
+        buildMaxHeap();
+        return heapSort(length - 1);
+    }
+    
+    
 }
