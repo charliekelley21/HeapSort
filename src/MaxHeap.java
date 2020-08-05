@@ -8,11 +8,11 @@
  */
 public class MaxHeap {
 
- // Setting up vars
+    // Setting up vars
     private final int numRecords;
     private int size;
     private BufferPool pool;
-    
+
     /**
      * The public constructor for MaxHeap
      */
@@ -20,31 +20,39 @@ public class MaxHeap {
         numRecords = 0;
         size = 0;
     }
-    
+
+
     public int heapSize() {
         return size;
     }
-    
+
+
     boolean isLeaf(int pos) {
-        return (pos >= size/2) && (pos < size);
+        return (pos >= size / 2) && (pos < size);
     }
-    
- // Return position for left child of pos
+
+
+    // Return position for left child of pos
     int leftchild(int pos) {
-      if (pos >= size/2) return -1;
-      return 2*pos + 1;
+        if (pos >= size / 2)
+            return -1;
+        return 2 * pos + 1;
     }
+
 
     // Return position for right child of pos
     int rightchild(int pos) {
-      if (pos >= (size-1)/2) return -1;
-      return 2*pos + 2;
+        if (pos >= (size - 1) / 2)
+            return -1;
+        return 2 * pos + 2;
     }
-    
- // Return position for parent
+
+
+    // Return position for parent
     int parent(int pos) {
-      if (pos <= 0) return -1;
-      return (pos-1)/2;
+        if (pos <= 0)
+            return -1;
+        return (pos - 1) / 2;
     }
 
 
@@ -59,7 +67,8 @@ public class MaxHeap {
         numRecords = pool.getNumRecords();
         size = numRecords;
     }
-    
+
+
     /**
      * Will construct a max heap from the items in heap
      */
@@ -77,9 +86,11 @@ public class MaxHeap {
      *            The location to perform heapify
      */
     private void heapify(int location) {
+        // Should check left and right are in bounds before pool read
         Record left = pool.read(2 * location + 1);
         Record right = pool.read(2 * location + 2);
         int smallest_index;
+        // must use the compareTo method in the Record
         if (left < size && heap[left] < heap[location]) {
             smallest_index = left;
             if (right < size && heap[right] < heap[left]) {
