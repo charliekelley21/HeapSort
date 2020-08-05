@@ -4,7 +4,6 @@ import student.TestCase;
  * Testing class for the MinHeap
  * 
  * @author Charlie Kelley (charlk21)
- * @author Barak Finnegan (bjfinn98)
  * @version 2020.08.04
  */
 public class MaxHeapTest extends TestCase {
