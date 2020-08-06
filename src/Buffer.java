@@ -43,4 +43,17 @@ public class Buffer {
         return library[loc % 1024];
     }
 
+
+    /**
+     * Will update a Record in the buffer
+     * 
+     * @param loc
+     *            location to update
+     * @param r
+     *            the new Record
+     */
+    public void setRecord(int loc, Record r) {
+        library[loc % 1024] = r;
+    }
+
 }

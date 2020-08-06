@@ -31,7 +31,7 @@ public class BufferTest extends TestCase {
 
 
     /**
-     * Tests the inRange method for the Buffer
+     * Tests the getRecord method for the Buffer
      */
     public void testGetRecord() {
         // can get the record using relative path
@@ -40,6 +40,18 @@ public class BufferTest extends TestCase {
         Record tes2 = test.getRecord(1124);
         assertNotNull(tes1);
         assertNotNull(tes2);
+    }
+
+
+    /**
+     * Tests the setRecord method for the Buffer
+     */
+    public void testSetRecord() {
+        // can get the record using relative path
+        test.setRecord(100, new Record((short)10, (short)10));
+        Record tes1 = test.getRecord(100);
+        assertNotNull(tes1);
+        assertEquals(10, tes1.getKey());
     }
 
 }

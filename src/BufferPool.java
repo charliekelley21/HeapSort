@@ -30,6 +30,7 @@ public class BufferPool {
         file = f;
         maxBuffers = buffers;
         this.numRecords = numRecords;
+        pool = new LList();
     }
 
 
@@ -65,6 +66,9 @@ public class BufferPool {
      * @return null if out of bounds i.e. if index == -1
      */
     public Record read(int index) {
+        // The index inputed into the read is a absolute record index. RAFile
+        // functions on bufferIndexes, call recordNumToBlockNum to convert.
+        // Also delete when you see this.
         return new Record((short)0, (short)0);
     }
 
@@ -74,12 +78,55 @@ public class BufferPool {
      * Also when a buffer gets exiled from our pool we will write it to memory.
      * 
      * @param index
-     *            Memory index of the buffer.
+     *            Memory index of the Record.
      * @param updated
      *            The new Record to be store into the buffer.
      */
     public void write(int index, Record updated) {
-        return;
+        // search buffer pool, if there update stats and buffer end
+        int bufferIndex = recordNumToBlockNum(index);
+        for (int i = 0; i < pool.length(); i++) {
+            Buffer tmp = pool.getValue();
+            if (tmp.inRange(bufferIndex)) {
+                tmp.setRecord(index, updated);
+
+                // MUST UPDATE STATS
+
+                return;
+            }
+            pool.next();
+        }
+        pool.moveToStart();
+        // if not there create new buffer, push last out and update disk if
+        // necessary
+        Buffer newBuffer = newBuffer(bufferIndex);
+
+        // update the new buffer update stats
+        newBuffer.setRecord(index, updated);
+
+        // MUST UPDATE STATS
+
+    }
+
+
+    /**
+     * Creates a new buffer and if the number of buffers exceed maximum will get
+     * rid of last index.
+     * 
+     * Adheres to the Least Frequently Used policy.
+     * 
+     * @param bufferIndex
+     *            The bufferIndex of to request from RAFile
+     * @return pointer to newly generated Buffer
+     */
+    private Buffer newBuffer(int bufferIndex) {
+        if (pool.length() == maxBuffers) {
+            // get rid of last buffer
+        }
+        Buffer newBuffer = new Buffer(bufferIndex, file.read(bufferIndex));
+        // add newBuffer to start of list
+
+        return newBuffer;
     }
 
 
