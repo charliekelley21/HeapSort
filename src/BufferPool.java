@@ -63,7 +63,7 @@ public class BufferPool {
      * 
      * @param index
      *            index to be retrieved
-     * @return null if out of bounds i.e. if index == -1
+     * @return desired Record or null if out of bounds
      */
     public Record read(int index) {
         // The index inputed into the read is a absolute record index. RAFile
