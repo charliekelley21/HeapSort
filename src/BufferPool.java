@@ -2,6 +2,7 @@
 public class BufferPool {
     private int numRecords;
     private RAFile file;
+    private BufferStatistics stats;
     private int maxBuffers;
 
     public BufferPool(RAFile f, int buffers, int numRecords) {
@@ -16,14 +17,17 @@ public class BufferPool {
     }
 
 
+    // return null if out of bounds  i.e. if index == -1
     public Record read(int index) {
-        short k = 0;
-        short v = 0;
-        return new Record(k, v);
+        return new Record((short)0, (short)0);
     }
 
 
     public void write(int index, Record updated) {
         return;
+    }
+    
+    public BufferStatistics getStats() { 
+        return stats;
     }
 }

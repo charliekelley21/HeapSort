@@ -1,7 +1,7 @@
 
 /**
  * The Max-Heap that will sort the external file.
- * 
+ *
  * @author Charlie Kelley (charlk21)
  * @author Barak Finnegan (bjfinn98)
  * @version 2020.08.05
@@ -21,6 +21,18 @@ public class MaxHeap {
         size = 0;
     }
 
+    /**
+     * The public constructor for MaxHeap
+     *
+     * @param newPool
+     *            BufferPool used by MaxHeap
+     */
+    public MaxHeap(BufferPool newPool) {
+        pool = newPool;
+        numRecords = pool.getNumRecords();
+        size = numRecords;
+        buildMaxHeap();
+    }
 
     public int heapSize() {
         return size;
@@ -57,19 +69,6 @@ public class MaxHeap {
 
 
     /**
-     * The public constructor for MaxHeap
-     * 
-     * @param fileName
-     *            int that will be the internal size of the heap
-     */
-    public MaxHeap(BufferPool newPool) {
-        pool = newPool;
-        numRecords = pool.getNumRecords();
-        size = numRecords;
-    }
-
-
-    /**
      * Will construct a max heap from the items in heap
      */
     private void buildMaxHeap() {
@@ -81,30 +80,48 @@ public class MaxHeap {
 
     /**
      * This is the internal heapify method
-     * 
-     * @param location
+     *
+     * @param pos
      *            The location to perform heapify
      */
-    private void heapify(int location) {
-        // Should check left and right are in bounds before pool read
-        Record left = pool.read(2 * location + 1);
-        Record right = pool.read(2 * location + 2);
-        int smallest_index;
-        // must use the compareTo method in the Record
-        if (left < size && heap[left] < heap[location]) {
-            smallest_index = left;
-            if (right < size && heap[right] < heap[left]) {
-                smallest_index = right;
-            }
+    private void heapify(int pos) {
+        int childIndex = leftchild(pos);
+        Record curr = pool.read(pos);
+        if (curr == null || isLeaf(pos)) {
+            return;
         }
-        else {
-            smallest_index = location;
+        Record child = pool.read(childIndex);
+        if (child != null && child.getKey() < curr.getKey()) {
+            childIndex = rightchild(pos);
+            child = pool.read(childIndex);
         }
-        if (smallest_index != location) {
-            int temp = heap[location];
-            heap[location] = heap[smallest_index];
-            heap[smallest_index] = temp;
-            heapify(smallest_index);
+        if (child != null && curr.getKey() >= child.getKey()) {
+            return;
         }
+        pool.write(pos, child);
+        pool.write(childIndex, curr);
+        heapify(childIndex);
     }
+
+    private Record removeMax() {
+        if (size == 0) {
+            return null;
+        }
+        Record max = pool.read(0);
+        Record rm = pool.read(size--);
+        pool.write(0, rm);
+        pool.write(size, max);
+        return rm;
+    }
+
+    public BufferStatistics heapSort(int length) {
+        if (length <= 0) {
+            return pool.getStats();
+        }
+        removeMax();
+        buildMaxHeap();
+        return heapSort(length - 1);
+    }
+
+
 }
