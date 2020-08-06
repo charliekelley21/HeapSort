@@ -1,18 +1,35 @@
+import java.io.FileNotFoundException;
+
 /**
- * A memory manager package for variable length
- * records, and a spatial data structure to support
- * geographical queryies.
+ * An external sorting package to hand sorting records of 4 bytes in length from
+ * a .dat file
  * 
- * @author {your PID}
+ * @author Charlie Kelley (charlk21)
+ * @author Barak Finnegan (bjfinn98)
+ * @version 2020.08.05
  */
 public class HeapSort {
-    
+
     /**
      * This is the entry point of the application
      * 
-     * @param args Command line arguments
+     * @param args
+     *            Command line arguments
+     * @throws FileNotFoundException
+     *             Throws exception on invalid filename
      */
-    public static void main(String[] args) {
-        // do things and stuff
+    public static void main(String[] args) throws FileNotFoundException {
+        if (args.length != 3) {
+            throw new IllegalArgumentException(
+                "Need three args: data-file-name num-buffers stat-file-name");
+        }
+        RAFile toBeSorted = new RAFile(args[0]);
+        short bufferNum = Short.valueOf(args[1]);
+        int recordNum = toBeSorted.recordNum();
+        BufferPool pool = new BufferPool(toBeSorted, bufferNum, recordNum);
+        MaxHeap heap = new MaxHeap(pool);
+
+        // call heap sort, this will return BufferStats obj and convert that to
+        // stats file
     }
 }
