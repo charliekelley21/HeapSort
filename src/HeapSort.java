@@ -1,5 +1,3 @@
-import java.io.FileNotFoundException;
-
 /**
  * An external sorting package to hand sorting records of 4 bytes in length from
  * a .dat file
