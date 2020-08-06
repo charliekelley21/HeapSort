@@ -44,6 +44,19 @@ public class BufferPool {
 
 
     /**
+     * This is the internal method for understanding where to instantiate a new
+     * buffer or write to an existing one
+     * 
+     * @param recordLoc
+     *            The location of the record
+     * @return The block of memory index
+     */
+    private int recordNumToBlockNum(int recordLoc) {
+        return recordLoc / 1024;
+    }
+
+
+    /**
      * Determines whether we must read in new info from disk or whether the info
      * is stored on buffer.
      * 
