@@ -15,10 +15,8 @@ public class HeapSort {
      * 
      * @param args
      *            Command line arguments
-     * @throws FileNotFoundException
-     *             Throws exception on invalid filename
      */
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         if (args.length != 3) {
             throw new IllegalArgumentException(
                 "Need three args: data-file-name num-buffers stat-file-name");
