@@ -78,6 +78,11 @@ public class BufferPool {
             if (tmp.inRange(bufferIndex)) {
                 // record found, cache hit
                 stats.hit();
+
+                // On hit we must move the buffer to first position
+                pool.remove();
+                pool.moveToStart();
+                pool.insert(tmp);
                 return tmp.getRecord(index);
             }
             pool.next();
@@ -108,7 +113,11 @@ public class BufferPool {
         for (int i = 0; i < pool.length(); i++) {
             Buffer tmp = pool.getValue();
             if (tmp.inRange(bufferIndex)) {
+                // On hit we must move the buffer to first position
+                pool.remove();
+                pool.moveToStart();
                 tmp.setRecord(index, updated);
+                pool.insert(tmp);
                 // record written, found a hit in cache
                 stats.hit();
                 return;
