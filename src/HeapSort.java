@@ -29,6 +29,10 @@ public class HeapSort {
         BufferPool pool = new BufferPool(toBeSorted, bufferNum, recordNum);
         MaxHeap heap = new MaxHeap(pool);
 
+        long initTime = System.currentTimeMillis();
+        BufferStatistics output = heap.heapSort();
+        long totalTime = System.currentTimeMillis() - initTime;
+
         // call heap sort, this will return BufferStats obj and convert that to
         // stats file
     }
