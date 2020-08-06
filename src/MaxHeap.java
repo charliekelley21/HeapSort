@@ -21,6 +21,7 @@ public class MaxHeap {
         size = 0;
     }
 
+
     /**
      * The public constructor for MaxHeap
      *
@@ -33,6 +34,7 @@ public class MaxHeap {
         size = numRecords;
         buildMaxHeap();
     }
+
 
     public int heapSize() {
         return size;
@@ -103,6 +105,7 @@ public class MaxHeap {
         heapify(childIndex);
     }
 
+
     private Record removeMax() {
         if (size == 0) {
             return null;
@@ -114,6 +117,7 @@ public class MaxHeap {
         return rm;
     }
 
+
     public BufferStatistics heapSort(int length) {
         if (length <= 0) {
             return pool.getStats();
@@ -122,6 +126,5 @@ public class MaxHeap {
         buildMaxHeap();
         return heapSort(length - 1);
     }
-
 
 }
