@@ -66,10 +66,26 @@ public class BufferPool {
      * @return desired Record or null if out of bounds
      */
     public Record read(int index) {
-        // The index inputed into the read is a absolute record index. RAFile
-        // functions on bufferIndexes, call recordNumToBlockNum to convert.
-        // Also delete when you see this.
-        return new Record((short)0, (short)0);
+        // convert index to Buffer num
+        int bufferIndex = recordNumToBlockNum(index);
+        // search pool for buffer with curr index
+        for (int i = 0; i < pool.length(); i++) {
+            Buffer tmp = pool.getValue();
+            if (tmp.inRange(bufferIndex)) {
+                // record found, cache hit
+                stats.hit();
+                return tmp.getRecord(index);
+            }
+            pool.next();
+        }
+        // record not present, cache miss
+        pool.moveToStart();
+        stats.miss();
+
+        // if not there create new buffer, push last out and update disk if
+        // necessary
+        Buffer newBuffer = newBuffer(bufferIndex);
+        return newBuffer.getRecord(index);
     }
 
 
@@ -89,22 +105,21 @@ public class BufferPool {
             Buffer tmp = pool.getValue();
             if (tmp.inRange(bufferIndex)) {
                 tmp.setRecord(index, updated);
-
-                // MUST UPDATE STATS
-
+                // record written, found a hit in cache
+                stats.hit();
                 return;
             }
             pool.next();
         }
+        // record not found, cache miss
+        stats.miss();
         pool.moveToStart();
         // if not there create new buffer, push last out and update disk if
         // necessary
         Buffer newBuffer = newBuffer(bufferIndex);
 
-        // update the new buffer update stats
+        // update the new buffer
         newBuffer.setRecord(index, updated);
-
-        // MUST UPDATE STATS
 
     }
 
@@ -113,19 +128,21 @@ public class BufferPool {
      * Creates a new buffer and if the number of buffers exceed maximum will get
      * rid of last index.
      * 
-     * Adheres to the Least Frequently Used policy.
+     * Adheres to the Least Recently Used policy.
      * 
      * @param bufferIndex
      *            The bufferIndex of to request from RAFile
      * @return pointer to newly generated Buffer
      */
     private Buffer newBuffer(int bufferIndex) {
+        // adding a new buffer requires a disk read
+        stats.diskRead();
         if (pool.length() == maxBuffers) {
             pool.moveToEnd();
             pool.prev();
             Buffer stale = pool.remove();
             // Do we need to write?
-            if(stale.dirty()) {
+            if (stale.dirty()) {
                 file.write(stale.records(), stale.index());
             }
         }
