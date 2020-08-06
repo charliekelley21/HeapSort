@@ -10,6 +10,7 @@ public class Buffer {
     // Setting up vars
     private Record[] library;
     private int index;
+    private boolean dirty;
 
     /**
      * The constructor for the Buffer class
@@ -17,6 +18,7 @@ public class Buffer {
     public Buffer(int i, Record[] lib) {
         library = lib;
         index = i;
+        dirty = false;
     }
 
 
@@ -53,7 +55,40 @@ public class Buffer {
      *            the new Record
      */
     public void setRecord(int loc, Record r) {
+        if (!dirty) {
+            dirty = true;
+        }
         library[loc % 1024] = r;
+    }
+
+
+    /**
+     * Whether the buffer has been written to or not.
+     * 
+     * @return boolean on whether the buffer has been adjusted
+     */
+    public boolean dirty() {
+        return dirty;
+    }
+
+
+    /**
+     * Will update a Record in the buffer
+     * 
+     * @return the records stored in the buffer
+     */
+    public Record[] records() {
+        return library;
+    }
+    
+    
+    /**
+     * Location of the buffer.
+     * 
+     * @return the data index
+     */
+    public int index() {
+        return index;
     }
 
 }

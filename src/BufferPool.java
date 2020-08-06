@@ -121,10 +121,18 @@ public class BufferPool {
      */
     private Buffer newBuffer(int bufferIndex) {
         if (pool.length() == maxBuffers) {
-            // get rid of last buffer
+            pool.moveToEnd();
+            pool.prev();
+            Buffer stale = pool.remove();
+            // Do we need to write?
+            if(stale.dirty()) {
+                file.write(stale.records(), stale.index());
+            }
         }
         Buffer newBuffer = new Buffer(bufferIndex, file.read(bufferIndex));
         // add newBuffer to start of list
+        pool.moveToStart();
+        pool.insert(newBuffer);
 
         return newBuffer;
     }

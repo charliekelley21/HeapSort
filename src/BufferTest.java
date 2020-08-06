@@ -54,4 +54,38 @@ public class BufferTest extends TestCase {
         assertEquals(10, tes1.getKey());
     }
 
+
+    /**
+     * Tests the dirty method for the Buffer
+     */
+    public void testDirty() {
+        // can get the record using relative path
+        assertFalse(test.dirty());
+        test.setRecord(100, new Record((short)10, (short)10));
+        assertTrue(test.dirty());
+        test.setRecord(10, new Record((short)10, (short)10));
+        assertTrue(test.dirty());
+        test.setRecord(50, new Record((short)10, (short)10));
+        assertTrue(test.dirty());
+    }
+
+
+    /**
+     * Tests the records method for the Buffer
+     */
+    public void testRecords() {
+        // can get the record using relative path
+        Record[] recs = test.records();
+        assertEquals(1024, recs.length);
+    }
+
+
+    /**
+     * Tests the index method for the Buffer
+     */
+    public void testIndex() {
+        // can get the record using relative path
+        assertEquals(1, test.index());
+    }
+
 }
