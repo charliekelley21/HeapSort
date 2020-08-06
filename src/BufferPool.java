@@ -66,6 +66,10 @@ public class BufferPool {
      * @return desired Record or null if out of bounds
      */
     public Record read(int index) {
+        if (index == -1) {
+            // out of bounds of the input file
+            return null;
+        }
         // convert index to Buffer num
         int bufferIndex = recordNumToBlockNum(index);
         // search pool for buffer with curr index

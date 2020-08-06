@@ -28,42 +28,72 @@ public class MaxHeap {
      * @param newPool
      *            BufferPool used by MaxHeap
      */
-    public MaxHeap(BufferPool newPool) {
-        pool = newPool;
+    public MaxHeap(BufferPool pool) {
+        this.pool = pool;
         numRecords = pool.getNumRecords();
         size = numRecords;
         buildMaxHeap();
     }
 
 
+    /**
+     * Getter for the size of the maxHeap
+     * 
+     * @return size
+     */
     public int heapSize() {
         return size;
     }
 
 
+    /**
+     * Determines if the current position is a leaf node
+     * 
+     * @param pos
+     *            current position
+     * @return true if node is a leaf, else false
+     */
     boolean isLeaf(int pos) {
         return (pos >= size / 2) && (pos < size);
     }
 
 
-    // Return position for left child of pos
-    int leftchild(int pos) {
+    /**
+     * Return position for left child of pos
+     * 
+     * @param pos
+     *            current position
+     * @return the index of the left child node, -1 if not present
+     */
+    private int leftchild(int pos) {
         if (pos >= size / 2)
             return -1;
         return 2 * pos + 1;
     }
 
 
-    // Return position for right child of pos
-    int rightchild(int pos) {
+    /**
+     * Return position for right child of pos
+     * 
+     * @param pos
+     *            current position
+     * @return the index of the right child node, -1 if not present
+     */
+    private int rightchild(int pos) {
         if (pos >= (size - 1) / 2)
             return -1;
         return 2 * pos + 2;
     }
 
 
-    // Return position for parent
-    int parent(int pos) {
+    /**
+     * Return position for parent
+     * 
+     * @param pos
+     *            current position
+     * @return index for the parent of the current node
+     */
+    private int parent(int pos) {
         if (pos <= 0)
             return -1;
         return (pos - 1) / 2;
@@ -106,6 +136,12 @@ public class MaxHeap {
     }
 
 
+    /**
+     * This removes the maximum value from the heap and decreases the size of
+     * the heap.
+     * 
+     * @return the Record with the maximum key value
+     */
     private Record removeMax() {
         if (size == 0) {
             return null;
@@ -118,13 +154,18 @@ public class MaxHeap {
     }
 
 
-    public BufferStatistics heapSort(int length) {
-        if (length <= 0) {
+    /**
+     * Heap sort algorithm performed on a set of Records
+     * 
+     * @return
+     */
+    public BufferStatistics heapSort() {
+        if (size <= 0) {
             return pool.getStats();
         }
         removeMax();
         buildMaxHeap();
-        return heapSort(length - 1);
+        return heapSort();
     }
 
 }
