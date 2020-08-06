@@ -1,3 +1,6 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 
 /**
  * The file that manages the reads and writes directly to and from disk
@@ -8,26 +11,94 @@
 public class RAFile {
 
     // Setting up vars
-    private String fileName;
+    private RandomAccessFile file;
+    private final int bufferRecordSize = 4096;
 
     /**
      * Constructor for the RAFile class
      * 
      * @param fName
      *            String of the name of the file
+     * @throws FileNotFoundException
+     *             Throws exception when file not found
      */
-    public RAFile(String fName) {
-        fileName = fName;
+    public RAFile(String fName) throws FileNotFoundException {
+        file = new RandomAccessFile(fName, "rw");
     }
 
 
     /**
-     * The number of records in need of sorting
+     * The number of records in need of sorting.
+     * Since the file is guarenteed to exist, cannot visit catch in this method
      * 
      * @return int of number of Records
      */
     public int recordNum() {
-        return 0;
+        int recNum = -1;
+        try {
+            recNum = (int)(file.length() / 4);
+        }
+        catch (IOException e) {
+
+        }
+        return recNum;
+    }
+
+
+    /**
+     * Gets the block of memory in the requests region
+     * 
+     * @param loc
+     *            The buffer location in records (0 ~ 0-1023, 1 ~ 1024-2047)
+     * @return an array of Record objects
+     */
+    public Record[] read(int loc) {
+        // set location to
+        loc = loc * bufferRecordSize;
+        Record[] records = new Record[bufferRecordSize / 4];
+        try {
+            file.seek(loc);
+            for (int i = 0; i < records.length; i++) {
+                short k = file.readShort();
+                short v = file.readShort();
+                records[i] = new Record(k, v);
+            }
+        }
+        catch (IOException e) {
+            return null;
+        }
+        return records;
+    }
+
+
+    /**
+     * Writes a new block of memory to the output file.
+     * 
+     * @param newRecords
+     *            The new Records to be written
+     * @param loc
+     *            The buffer location in records (0 ~ 0-1023, 1 ~ 1024-2047)
+     * @return boolean on success
+     */
+    public boolean write(Record[] newRecords, int loc) {
+        // set location to
+        loc = loc * bufferRecordSize;
+        try {
+            if (loc > file.length()) {
+                return false;
+            }
+            file.seek(loc);
+            for (int i = 0; i < newRecords.length; i++) {
+                short k = newRecords[i].getKey();
+                short v = newRecords[i].getValue();
+                file.writeShort(k);
+                file.writeShort(v);
+            }
+        }
+        catch (IOException e) {
+            return false;
+        }
+        return true;
     }
 
 }

@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+
 /**
  * An external sorting package to hand sorting records of 4 bytes in length from
  * a .dat file
@@ -13,8 +15,10 @@ public class HeapSort {
      * 
      * @param args
      *            Command line arguments
+     * @throws FileNotFoundException
+     *             Throws error when file non existent
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         if (args.length != 3) {
             throw new IllegalArgumentException(
                 "Need three args: data-file-name num-buffers stat-file-name");
