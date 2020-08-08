@@ -9,7 +9,7 @@ import student.TestCase;
  */
 public class BufferStatisticsTest extends TestCase {
 
- // Setting up vars
+    // Setting up vars
     private BufferStatistics test;
 
     /**
@@ -18,7 +18,8 @@ public class BufferStatisticsTest extends TestCase {
     public void setUp() {
         test = new BufferStatistics();
     }
-    
+
+
     /**
      * This will test the constructor for BufferStatistics
      */
@@ -27,7 +28,8 @@ public class BufferStatisticsTest extends TestCase {
         assertEquals(test.getMisses(), 0);
         assertEquals(test.getDiskReads(), 0);
     }
-    
+
+
     /**
      * Test the Hits getter and setter
      */
@@ -37,7 +39,8 @@ public class BufferStatisticsTest extends TestCase {
             assertEquals(test.getHits(), i);
         }
     }
-    
+
+
     /**
      * Test the Misses getter and setter
      */
@@ -47,7 +50,8 @@ public class BufferStatisticsTest extends TestCase {
             assertEquals(test.getMisses(), i);
         }
     }
-    
+
+
     /**
      * Test the Misses getter and setter
      */
@@ -55,6 +59,17 @@ public class BufferStatisticsTest extends TestCase {
         for (int i = 1; i <= 10; i++) {
             test.diskRead();
             assertEquals(test.getDiskReads(), i);
+        }
+    }
+
+
+    /**
+     * Test the Misses getter and setter
+     */
+    public void testDiskWrites() {
+        for (int i = 1; i <= 10; i++) {
+            test.diskWrite();
+            assertEquals(test.getDiskWrites(), i);
         }
     }
 }

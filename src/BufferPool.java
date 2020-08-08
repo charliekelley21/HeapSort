@@ -109,6 +109,10 @@ public class BufferPool {
      *            The new Record to be store into the buffer.
      */
     public void write(int index, Record updated) {
+        if (index == -1) {
+            // out of bounds of the input file
+            return;
+        }
         // search buffer pool, if there update stats and buffer end
         int bufferIndex = recordNumToBlockNum(index);
         for (int i = 0; i < pool.length(); i++) {
