@@ -31,6 +31,7 @@ public class BufferPool {
         maxBuffers = buffers;
         this.numRecords = numRecords;
         pool = new LList();
+        stats = new BufferStatistics();
     }
 
 

@@ -1,4 +1,6 @@
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 
 /**
  * An external sorting package to hand sorting records of 4 bytes in length from
@@ -33,7 +35,38 @@ public class HeapSort {
         BufferStatistics output = heap.heapSort();
         long totalTime = System.currentTimeMillis() - initTime;
 
-        // call heap sort, this will return BufferStats obj and convert that to
-        // stats file
+        Record[] answers = toBeSorted.firstRecords();
+        int itemsPerLine = 8;
+
+        for (int i = 0; i <= answers.length / itemsPerLine; i++) {
+            for (int j = 0; j < itemsPerLine; j++) {
+                // guarantee no array out of bounds
+                int index = itemsPerLine * i + j;
+                if (!(index > answers.length)) {
+                    System.out.print(answers[index].getKey() + " "
+                        + answers[index].getKey() + " ");
+                }
+            }
+            System.out.print("\n");
+        }
+
+        File outputFile = null;
+        try {
+            outputFile = new File(args[2]);
+            // will not generate a new file on call.
+            outputFile.createNewFile();
+            FileWriter writer = new FileWriter(outputFile);
+            writer.append("------  STATS ------");
+            writer.append("File name: " + args[2]);
+            writer.append("Cache Hits: " + output.getHits());
+            writer.append("Cache Misses: " + output.getMisses());
+            writer.append("Disk Reads: " + output.getDiskReads());
+            // update when writes implemented
+            writer.append("Disk Writes: " + output.getDiskReads());
+            writer.append("Time To Sort: " + totalTime);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

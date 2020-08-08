@@ -127,4 +127,26 @@ public class RAFile {
         return true;
     }
 
+
+    /**
+     * Gets the first record from each 4096 byte block.
+     * 
+     * @return an array of the bytes in the block
+     */
+    public Record[] firstRecords() {
+        int numBlocks = recordNum() / 1024;
+        Record[] answer = new Record[numBlocks];
+        for (int i = 0; i < answer.length; i++) {
+            try {
+                file.seek(i * 4096);
+                short k = file.readShort();
+                short v = file.readShort();
+                Record newInsert = new Record(k, v);
+                answer[i] = newInsert;
+            }
+            catch (IOException e) {
+            }
+        }
+        return answer;
+    }
 }

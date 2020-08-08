@@ -90,7 +90,7 @@ public class RAFileTest extends TestCase {
 
 
     /**
-     * This tests the read method
+     * This tests the write method
      */
     public void testWrite() {
         Record[] records = test.read(0);
@@ -116,7 +116,7 @@ public class RAFileTest extends TestCase {
 
 
     /**
-     * This tests the read method
+     * This tests the write method
      */
     public void testWriteExceptions() {
         try {
@@ -126,5 +126,15 @@ public class RAFileTest extends TestCase {
         catch (Exception e) {
             assertTrue(e instanceof IOException);
         }
+    }
+
+
+    /**
+     * This tests the firstRecords method
+     */
+    public void testFirstRecords() {
+        Record[] testing = test.firstRecords();
+        assertEquals(3391, testing[0].getKey());
+        assertEquals(7998, testing[1].getKey());
     }
 }
