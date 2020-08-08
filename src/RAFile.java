@@ -25,7 +25,7 @@ public class RAFile {
      */
     public RAFile(String fName) throws FileNotFoundException {
         this.fName = fName;
-        file = new RandomAccessFile(fName, "rw");
+        file = new RandomAccessFile(fName, "r");
     }
 
 
