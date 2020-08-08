@@ -150,6 +150,7 @@ public class BufferPool {
     private Buffer newBuffer(int bufferIndex) {
         // adding a new buffer requires a disk read
         stats.diskRead();
+        file.open();
         if (pool.length() == maxBuffers) {
             pool.moveToEnd();
             pool.prev();
@@ -163,6 +164,7 @@ public class BufferPool {
         // add newBuffer to start of list
         pool.moveToStart();
         pool.insert(newBuffer);
+        file.close();
 
         return newBuffer;
     }

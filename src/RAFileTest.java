@@ -34,6 +34,39 @@ public class RAFileTest extends TestCase {
 
 
     /**
+     * This tests the close method
+     */
+    public void testClose() {
+        test.close();
+        assertNotNull(test);
+    }
+
+
+    /**
+     * This tests the close method
+     */
+    public void testLengthExceptions() {
+        test.close();
+        try {
+            test.recordNum();
+        }
+        catch (Exception e) {
+            assertTrue(e instanceof IOException);
+        }
+    }
+
+
+    /**
+     * This tests the open method
+     */
+    public void testOpen() {
+        test.close();
+        test.open();
+        assertNotNull(test);
+    }
+
+
+    /**
      * This tests the read method
      */
     public void testRead() {

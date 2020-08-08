@@ -13,6 +13,7 @@ public class RAFile {
     // Setting up vars
     private RandomAccessFile file;
     private final int bufferRecordSize = 4096;
+    private final String fName;
 
     /**
      * Constructor for the RAFile class
@@ -23,6 +24,7 @@ public class RAFile {
      *             Throws exception when file not found
      */
     public RAFile(String fName) throws FileNotFoundException {
+        this.fName = fName;
         file = new RandomAccessFile(fName, "rw");
     }
 
@@ -39,9 +41,33 @@ public class RAFile {
             recNum = (int)(file.length() / 4);
         }
         catch (IOException e) {
-
+            e.printStackTrace();
         }
         return recNum;
+    }
+
+
+    /**
+     * Closes the RAFile
+     */
+    public void close() {
+        try {
+            file.close();
+        }
+        catch (IOException e) {
+        }
+    }
+
+
+    /**
+     * Opens the RAFile
+     */
+    public void open() {
+        try {
+            file = new RandomAccessFile(fName, "rw");
+        }
+        catch (FileNotFoundException e) {
+        }
     }
 
 
