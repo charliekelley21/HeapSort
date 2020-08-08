@@ -56,14 +56,13 @@ public class HeapSort {
             // will not generate a new file on call.
             outputFile.createNewFile();
             FileWriter writer = new FileWriter(outputFile);
-            writer.append("------  STATS ------");
             writer.append("File name: " + args[2]);
             writer.append("Cache Hits: " + output.getHits());
             writer.append("Cache Misses: " + output.getMisses());
             writer.append("Disk Reads: " + output.getDiskReads());
-            // update when writes implemented
-            writer.append("Disk Writes: " + output.getDiskReads());
+            writer.append("Disk Writes: " + output.getDiskWrites());
             writer.append("Time To Sort: " + totalTime);
+            writer.close();
         }
         catch (Exception e) {
             e.printStackTrace();

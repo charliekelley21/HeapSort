@@ -10,6 +10,7 @@ public class BufferStatistics {
     private int cacheHits;
     private int cacheMisses;
     private int diskReads;
+    private int diskWrites;
 
     /**
      * Default constructor BufferStatistics
@@ -18,6 +19,7 @@ public class BufferStatistics {
         cacheHits = 0;
         cacheMisses = 0;
         diskReads = 0;
+        diskWrites = 0;
     }
 
 
@@ -72,5 +74,23 @@ public class BufferStatistics {
      */
     public int getDiskReads() {
         return diskReads;
+    }
+
+
+    /**
+     * Increase the disk write count
+     */
+    public void diskWrite() {
+        diskWrites++;
+    }
+
+
+    /**
+     * getter for the number of disk writes
+     * 
+     * @return disk writes
+     */
+    public int getDiskWrites() {
+        return diskWrites;
     }
 }

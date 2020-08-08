@@ -159,6 +159,7 @@ public class BufferPool {
             // Do we need to write?
             if (stale.dirty()) {
                 file.write(stale.records(), stale.index());
+                stats.diskWrite();
             }
         }
         Buffer newBuffer = new Buffer(bufferIndex, file.read(bufferIndex));
