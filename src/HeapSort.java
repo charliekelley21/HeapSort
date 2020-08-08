@@ -29,9 +29,9 @@ public class HeapSort {
         short bufferNum = Short.valueOf(args[1]);
         int recordNum = toBeSorted.recordNum();
         BufferPool pool = new BufferPool(toBeSorted, bufferNum, recordNum);
-        MaxHeap heap = new MaxHeap(pool);
 
         long initTime = System.currentTimeMillis();
+        MaxHeap heap = new MaxHeap(pool);
         BufferStatistics output = heap.heapSort();
         long totalTime = System.currentTimeMillis() - initTime;
 

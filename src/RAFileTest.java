@@ -107,6 +107,8 @@ public class RAFileTest extends TestCase {
         newRecords[2] = new Record(k, v);
         assertEquals(5, newRecords[0].getKey());
         assertEquals(5, newRecords[2].getKey());
+        test.close();
+        test.open();
         assertTrue(test.write(newRecords, 0));
         Record[] testing = test.read(0);
         assertEquals(newRecords[0].getKey(), testing[0].getKey());

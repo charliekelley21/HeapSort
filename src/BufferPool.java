@@ -67,7 +67,7 @@ public class BufferPool {
      * @return desired Record or null if out of bounds
      */
     public Record read(int index) {
-        if (index == -1) {
+        if (index == -1 || index >= numRecords) {
             // out of bounds of the input file
             return null;
         }
@@ -109,7 +109,7 @@ public class BufferPool {
      *            The new Record to be store into the buffer.
      */
     public void write(int index, Record updated) {
-        if (index == -1) {
+        if (index == -1 || index >= numRecords) {
             // out of bounds of the input file
             return;
         }
