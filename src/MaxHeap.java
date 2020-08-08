@@ -143,6 +143,8 @@ public class MaxHeap {
      * @return the Record with the maximum key value
      */
     private Record removeMax() {
+        // error were last index in buffer array is null.
+        // not being read in as null, so must be written as null.
         if (size == 0) {
             return null;
         }
@@ -160,6 +162,8 @@ public class MaxHeap {
      * @return
      */
     public BufferStatistics heapSort() {
+        // error were last index in buffer array is null.
+        // not being read in as null, so must be written as null.
         if (size <= 0) {
             return pool.getStats();
         }
