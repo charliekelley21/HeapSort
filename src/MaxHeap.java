@@ -150,6 +150,8 @@ public class MaxHeap {
         }
         Record max = pool.read(0);
         Record rm = pool.read(size--);
+        // first loop we are writing null values, interestingly lots of values
+        // in first buffer are null.
         pool.write(0, rm);
         pool.write(size, max);
         return rm;

@@ -68,8 +68,8 @@ public class BufferPool {
      */
     public Record read(int index) {
         if (index == -1 || index >= numRecords) {
-            // out of bounds of the input file
-            return null;
+            // The heap should not be making read calls that are out of bounds
+            throw new ArrayIndexOutOfBoundsException();
         }
         // convert index to Buffer num
         int bufferIndex = recordNumToBlockNum(index);
