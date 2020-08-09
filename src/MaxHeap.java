@@ -168,6 +168,8 @@ public class MaxHeap {
             return pool.getStats();
         }
         removeMax();
+        // Shouldn't be using buildMaxHeap, should just be heapifying at 0
+        // Throws an infinite recursion we have to debug.
         buildMaxHeap();
         return heapSort();
     }
