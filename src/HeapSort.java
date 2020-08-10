@@ -30,6 +30,7 @@ public class HeapSort {
         int recordNum = toBeSorted.recordNum();
         BufferPool pool = new BufferPool(toBeSorted, bufferNum, recordNum);
 
+        // timing the sorting
         long initTime = System.currentTimeMillis();
         MaxHeap heap = new MaxHeap(pool);
         BufferStatistics output = heap.heapSort();
@@ -40,13 +41,14 @@ public class HeapSort {
         toBeSorted.close();
         int itemsPerLine = 8;
 
+        // output
         for (int i = 0; i <= answers.length / itemsPerLine; i++) {
             for (int j = 0; j < itemsPerLine; j++) {
                 // guarantee no array out of bounds
                 int index = itemsPerLine * i + j;
                 if (!(index >= answers.length)) {
                     System.out.print(answers[index].getKey() + " "
-                        + answers[index].getKey() + " ");
+                        + answers[index].getValue() + " ");
                 }
             }
             System.out.print("\n");
