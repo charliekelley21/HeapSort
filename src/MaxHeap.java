@@ -117,24 +117,28 @@ public class MaxHeap {
      *            The location to perform heapify
      */
     private void heapify(int pos) {
-        int childIndex = leftchild(pos);
-        Record curr = pool.read(pos);
-        if (curr == null || isLeaf(pos)) {
+        if ((pos < 0) || (pos >= size)) {
             return;
         }
-        Record child = pool.read(childIndex);
-        if (child != null && child.getKey() < curr.getKey()) {
-            childIndex = rightchild(pos);
+        int childIndex;
+        Record curr;
+        Record child;
+        while (!isLeaf(pos)) {
+            curr = pool.read(pos);
+            childIndex = leftchild(pos);
             child = pool.read(childIndex);
+            if (child != null && child.getKey() < curr.getKey()) {
+                childIndex = rightchild(pos);
+                child = pool.read(childIndex);
+            }
+            if (child != null && curr.getKey() >= child.getKey()) {
+                return;
+            }
+            pool.write(pos, child);
+            pool.write(childIndex, curr);
+            pos = childIndex;
         }
-        if (child != null && curr.getKey() >= child.getKey()) {
-            return;
-        }
-        pool.write(pos, child);
-        pool.write(childIndex, curr);
-        heapify(childIndex);
     }
-
 
     /**
      * This removes the maximum value from the heap and decreases the size of
@@ -154,7 +158,8 @@ public class MaxHeap {
         // in first buffer are null.
         pool.write(0, rm);
         pool.write(size, max);
-        return rm;
+        heapify(0);
+        return max;
     }
 
 
@@ -166,14 +171,10 @@ public class MaxHeap {
     public BufferStatistics heapSort() {
         // error were last index in buffer array is null.
         // not being read in as null, so must be written as null.
-        if (size <= 0) {
-            return pool.getStats();
+        for (int i = 0; i < numRecords; i++) {
+            removeMax();
         }
-        removeMax();
-        // Shouldn't be using buildMaxHeap, should just be heapifying at 0
-        // Throws an infinite recursion we have to debug.
-        buildMaxHeap();
-        return heapSort();
+        return pool.getStats();
     }
 
 }
