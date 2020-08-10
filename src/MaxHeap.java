@@ -9,8 +9,8 @@
 public class MaxHeap {
 
     // Setting up vars
-    private final int numRecords;
-    private int size;
+    private final int numRecords; // max number of elements in heap
+    private int size; // current size of the heap
     private BufferPool pool;
 
     /**
@@ -32,7 +32,7 @@ public class MaxHeap {
         this.pool = pool;
         numRecords = pool.getNumRecords();
         size = numRecords;
-        buildMaxHeap();
+        buildHeap();
     }
 
 
@@ -66,9 +66,10 @@ public class MaxHeap {
      * @return the index of the left child node, -1 if not present
      */
     private int leftchild(int pos) {
-        if (pos >= size / 2)
+        if (pos >= size / 2) {
             return -1;
-        return 2 * pos + 1;
+        }
+        return (2 * pos) + 1;
     }
 
 
@@ -80,9 +81,10 @@ public class MaxHeap {
      * @return the index of the right child node, -1 if not present
      */
     private int rightchild(int pos) {
-        if (pos >= (size - 1) / 2)
+        if (pos >= (size - 1) / 2) {
             return -1;
-        return 2 * pos + 2;
+        }
+        return (2 * pos) + 2;
     }
 
 
@@ -103,8 +105,8 @@ public class MaxHeap {
     /**
      * Will construct a max heap from the items in heap
      */
-    private void buildMaxHeap() {
-        for (int i = size / 2 + 1; i >= 0; i--) {
+    private void buildHeap() {
+        for (int i = size / 2 - 1; i >= 0; i--) {
             heapify(i);
         }
     }
@@ -124,19 +126,19 @@ public class MaxHeap {
         int childIndex = leftchild(pos);
         if (childIndex < (size - 1)) {
             Record swap = pool.read(childIndex);
-            Record right = pool.read(childIndex+1);
+            Record right = pool.read(childIndex + 1);
             // right path child is the greater of the two
-            if ( swap.getKey() < right.getKey() ) { 
+            if (swap.getKey() < right.getKey()) {
                 childIndex++;
-                swap = right;                
+                swap = right;
             }
-            if (curr.getKey() > swap.getKey()) {
+            if (curr.getKey() >= swap.getKey()) {
                 return;
             }
             pool.write(pos, swap);
             pool.write(childIndex, curr);
         }
-        heapify(childIndex);        
+        heapify(childIndex);
     }
 
 
@@ -149,7 +151,7 @@ public class MaxHeap {
     private Record removeMax() {
         // error were last index in buffer array is null.
         // not being read in as null, so must be written as null.
-        if (size == 0) {
+        if (size <= 0) {
             return null;
         }
         Record max = pool.read(0);
@@ -159,6 +161,7 @@ public class MaxHeap {
         // in first buffer are null.
         pool.write(0, rm);
         pool.write(size, max);
+        // size--;
         heapify(0);
         return max;
     }
