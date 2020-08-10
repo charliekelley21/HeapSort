@@ -38,7 +38,7 @@ public class MaxHeap {
 
     /**
      * Getter for the size of the maxHeap
-     * 
+     *
      * @return size
      */
     public int heapSize() {
@@ -48,7 +48,7 @@ public class MaxHeap {
 
     /**
      * Determines if the current position is a leaf node
-     * 
+     *
      * @param pos
      *            current position
      * @return true if node is a leaf, else false
@@ -60,7 +60,7 @@ public class MaxHeap {
 
     /**
      * Return position for left child of pos
-     * 
+     *
      * @param pos
      *            current position
      * @return the index of the left child node, -1 if not present
@@ -75,7 +75,7 @@ public class MaxHeap {
 
     /**
      * Return position for right child of pos
-     * 
+     *
      * @param pos
      *            current position
      * @return the index of the right child node, -1 if not present
@@ -90,7 +90,7 @@ public class MaxHeap {
 
     /**
      * Return position for parent
-     * 
+     *
      * @param pos
      *            current position
      * @return index for the parent of the current node
@@ -119,11 +119,11 @@ public class MaxHeap {
      *            The location to perform heapify
      */
     private void heapify(int pos) {
-        if ((pos < 0) || (pos >= size) || (isLeaf(pos))) {
+        if ((pos < 0) || (pos >= size / 2)) {
             return;
         }
         Record curr = pool.read(pos);
-        int childIndex = leftchild(pos);
+        int childIndex = 2 * pos + 1;
         if (childIndex < (size - 1)) {
             Record swap = pool.read(childIndex);
             Record right = pool.read(childIndex + 1);
@@ -145,7 +145,7 @@ public class MaxHeap {
     /**
      * This removes the maximum value from the heap and decreases the size of
      * the heap.
-     * 
+     *
      * @return the Record with the maximum key value
      */
     private Record removeMax() {
@@ -169,7 +169,7 @@ public class MaxHeap {
 
     /**
      * Heap sort algorithm performed on a set of Records
-     * 
+     *
      * @return
      */
     public BufferStatistics heapSort() {
