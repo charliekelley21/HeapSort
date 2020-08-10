@@ -117,31 +117,26 @@ public class MaxHeap {
      *            The location to perform heapify
      */
     private void heapify(int pos) {
-        if ((pos < 0) || (pos >= size)) {
+        if ((pos < 0) || (pos >= size) || (isLeaf(pos))) {
             return;
         }
-        int childIndex;
-        Record curr;
-        Record child = null;
-        while (!isLeaf(pos)) {
-            curr = pool.read(pos);
-            childIndex = leftchild(pos);
-            if (childIndex != -1) {
-                child = pool.read(childIndex);
+        Record curr = pool.read(pos);
+        int childIndex = leftchild(pos);
+        if (childIndex < (size - 1)) {
+            Record swap = pool.read(childIndex);
+            Record right = pool.read(childIndex+1);
+            // right path child is the greater of the two
+            if ( swap.getKey() < right.getKey() ) { 
+                childIndex++;
+                swap = right;                
             }
-            if (child != null && child.getKey() < curr.getKey()) {
-                childIndex = rightchild(pos);
-                if (childIndex != -1) {
-                    child = pool.read(childIndex);
-                }
-            }
-            if (child != null && curr.getKey() >= child.getKey()) {
+            if (curr.getKey() > swap.getKey()) {
                 return;
             }
-            pool.write(pos, child);
+            pool.write(pos, swap);
             pool.write(childIndex, curr);
-            pos = childIndex;
         }
+        heapify(childIndex);        
     }
 
 
