@@ -47,60 +47,6 @@ public class MaxHeap {
 
 
     /**
-     * Determines if the current position is a leaf node
-     * 
-     * @param pos
-     *            current position
-     * @return true if node is a leaf, else false
-     */
-    boolean isLeaf(int pos) {
-        return (pos >= size / 2) && (pos < size);
-    }
-
-
-    /**
-     * Return position for left child of pos
-     * 
-     * @param pos
-     *            current position
-     * @return the index of the left child node, -1 if not present
-     */
-    private int leftchild(int pos) {
-        if (pos >= size / 2)
-            return -1;
-        return 2 * pos + 1;
-    }
-
-
-    /**
-     * Return position for right child of pos
-     * 
-     * @param pos
-     *            current position
-     * @return the index of the right child node, -1 if not present
-     */
-    private int rightchild(int pos) {
-        if (pos >= (size - 1) / 2)
-            return -1;
-        return 2 * pos + 2;
-    }
-
-
-    /**
-     * Return position for parent
-     * 
-     * @param pos
-     *            current position
-     * @return index for the parent of the current node
-     */
-    private int parent(int pos) {
-        if (pos <= 0)
-            return -1;
-        return (pos - 1) / 2;
-    }
-
-
-    /**
      * Will construct a max heap from the items in heap
      */
     private void buildMaxHeap() {
@@ -117,18 +63,18 @@ public class MaxHeap {
      *            The location to perform heapify
      */
     private void heapify(int pos) {
-        if ((pos < 0) || (pos >= size) || (isLeaf(pos))) {
+        if ((pos < 0) || (pos >= size / 2)) {
             return;
         }
         Record curr = pool.read(pos);
-        int childIndex = leftchild(pos);
+        int childIndex = 2 * pos + 1;
         if (childIndex < (size - 1)) {
             Record swap = pool.read(childIndex);
-            Record right = pool.read(childIndex+1);
+            Record right = pool.read(childIndex + 1);
             // right path child is the greater of the two
-            if ( swap.getKey() < right.getKey() ) { 
+            if (swap.getKey() < right.getKey()) {
                 childIndex++;
-                swap = right;                
+                swap = right;
             }
             if (curr.getKey() > swap.getKey()) {
                 return;
@@ -136,7 +82,7 @@ public class MaxHeap {
             pool.write(pos, swap);
             pool.write(childIndex, curr);
         }
-        heapify(childIndex);        
+        heapify(childIndex);
     }
 
 
