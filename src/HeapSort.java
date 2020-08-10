@@ -35,14 +35,16 @@ public class HeapSort {
         BufferStatistics output = heap.heapSort();
         long totalTime = System.currentTimeMillis() - initTime;
 
+        toBeSorted.open();
         Record[] answers = toBeSorted.firstRecords();
+        toBeSorted.close();
         int itemsPerLine = 8;
 
         for (int i = 0; i <= answers.length / itemsPerLine; i++) {
             for (int j = 0; j < itemsPerLine; j++) {
                 // guarantee no array out of bounds
                 int index = itemsPerLine * i + j;
-                if (!(index > answers.length)) {
+                if (!(index >= answers.length)) {
                     System.out.print(answers[index].getKey() + " "
                         + answers[index].getKey() + " ");
                 }
@@ -56,11 +58,11 @@ public class HeapSort {
             // will not generate a new file on call.
             outputFile.createNewFile();
             FileWriter writer = new FileWriter(outputFile);
-            writer.append("File name: " + args[2]);
-            writer.append("Cache Hits: " + output.getHits());
-            writer.append("Cache Misses: " + output.getMisses());
-            writer.append("Disk Reads: " + output.getDiskReads());
-            writer.append("Disk Writes: " + output.getDiskWrites());
+            writer.append("File name: " + args[2] + "\n");
+            writer.append("Cache Hits: " + output.getHits() + "\n");
+            writer.append("Cache Misses: " + output.getMisses() + "\n");
+            writer.append("Disk Reads: " + output.getDiskReads() + "\n");
+            writer.append("Disk Writes: " + output.getDiskWrites() + "\n");
             writer.append("Time To Sort: " + totalTime);
             writer.close();
         }

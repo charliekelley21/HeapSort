@@ -122,14 +122,18 @@ public class MaxHeap {
         }
         int childIndex;
         Record curr;
-        Record child;
+        Record child = null;
         while (!isLeaf(pos)) {
             curr = pool.read(pos);
             childIndex = leftchild(pos);
-            child = pool.read(childIndex);
+            if (childIndex != -1) {
+                child = pool.read(childIndex);
+            }
             if (child != null && child.getKey() < curr.getKey()) {
                 childIndex = rightchild(pos);
-                child = pool.read(childIndex);
+                if (childIndex != -1) {
+                    child = pool.read(childIndex);
+                }
             }
             if (child != null && curr.getKey() >= child.getKey()) {
                 return;
@@ -139,6 +143,7 @@ public class MaxHeap {
             pos = childIndex;
         }
     }
+
 
     /**
      * This removes the maximum value from the heap and decreases the size of
@@ -153,7 +158,8 @@ public class MaxHeap {
             return null;
         }
         Record max = pool.read(0);
-        Record rm = pool.read(size--);
+        size--;
+        Record rm = pool.read(size);
         // first loop we are writing null values, interestingly lots of values
         // in first buffer are null.
         pool.write(0, rm);
