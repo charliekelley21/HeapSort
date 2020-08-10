@@ -177,6 +177,23 @@ public class BufferPool {
 
 
     /**
+     * Flushes the remaining Buffers in the Buffer pool to write to disk.
+     */
+    public void flush() {
+        // adding a new buffer requires a disk read
+        file.open();
+        pool.moveToStart();
+        for (int i = 0; i < pool.length(); i++) {
+            Buffer curr = pool.remove();
+            file.write(curr.records(), curr.index());
+            pool.next();
+        }
+        pool.moveToStart();
+        file.close();
+    }
+
+
+    /**
      * Will return the information that we need to output
      * 
      * @return BufferStatistics on how interactive our cache worked

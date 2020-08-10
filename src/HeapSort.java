@@ -34,6 +34,7 @@ public class HeapSort {
         long initTime = System.currentTimeMillis();
         MaxHeap heap = new MaxHeap(pool);
         BufferStatistics output = heap.heapSort();
+        pool.flush();
         long totalTime = System.currentTimeMillis() - initTime;
 
         toBeSorted.open();
