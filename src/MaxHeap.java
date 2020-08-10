@@ -59,50 +59,6 @@ public class MaxHeap {
 
 
     /**
-     * Return position for left child of pos
-     *
-     * @param pos
-     *            current position
-     * @return the index of the left child node, -1 if not present
-     */
-    private int leftchild(int pos) {
-        if (pos >= size / 2) {
-            return -1;
-        }
-        return (2 * pos) + 1;
-    }
-
-
-    /**
-     * Return position for right child of pos
-     *
-     * @param pos
-     *            current position
-     * @return the index of the right child node, -1 if not present
-     */
-    private int rightchild(int pos) {
-        if (pos >= (size - 1) / 2) {
-            return -1;
-        }
-        return (2 * pos) + 2;
-    }
-
-
-    /**
-     * Return position for parent
-     *
-     * @param pos
-     *            current position
-     * @return index for the parent of the current node
-     */
-    private int parent(int pos) {
-        if (pos <= 0)
-            return -1;
-        return (pos - 1) / 2;
-    }
-
-
-    /**
      * Will construct a max heap from the items in heap
      */
     private void buildHeap() {
