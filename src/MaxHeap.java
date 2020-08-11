@@ -62,7 +62,7 @@ public class MaxHeap {
      * Will construct a max heap from the items in heap
      */
     private void buildHeap() {
-        for (int i = size / 2 - 1; i >= 0; i--) {
+        for (int i = (size / 2) - 1; i >= 0; i--) {
             heapify(i);
         }
     }
@@ -83,7 +83,7 @@ public class MaxHeap {
         if (childIndex < (size - 1)) {
             Record swap = pool.read(childIndex);
             Record right = pool.read(childIndex + 1);
-            // right path child is the greater of the two
+            // right child is the greater of the two
             if (swap.getKey() < right.getKey()) {
                 childIndex++;
                 swap = right;
