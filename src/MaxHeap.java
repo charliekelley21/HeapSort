@@ -109,8 +109,8 @@ public class MaxHeap {
         if (size <= 0) {
             return null;
         }
-        Record max = pool.read(0);
         size--;
+        Record max = pool.read(0);
         Record rm = pool.read(size);
         // first loop we are writing null values, interestingly lots of values
         // in first buffer are null.
@@ -129,10 +129,19 @@ public class MaxHeap {
     public BufferStatistics heapSort() {
         // error were last index in buffer array is null.
         // not being read in as null, so must be written as null.
-        for (int i = 0; i < numRecords; i++) {
+        short last = pool.read(0).getKey();
+        int count = 0;
+        for (int i = numRecords - 1; i > 0; i--) {
             Record max = removeMax();
-            //System.out.println(max.getKey());
+            if (Short.compare(max.getKey(), last) > 0) {
+                System.out.println(count);
+                return null;
+            }
+            last = max.getKey();
+            System.out.println(max.getKey());
+            count++;
         }
+        System.out.println(count);
         return pool.getStats();
     }
 
