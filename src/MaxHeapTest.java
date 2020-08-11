@@ -88,7 +88,7 @@ public class MaxHeapTest extends TestCase {
     /**
      * This will test the heapSort method for MaxHeap
      */
-    public void testHeapSort()  throws FileNotFoundException {
+    public void testHeapSortWithRemove()  throws FileNotFoundException {
         RAFile toBeSorted = new RAFile("src/test/p3_input_sample.dat");
         short bufferNum = Short.valueOf("4");
         int recordNum = toBeSorted.recordNum();
@@ -107,10 +107,23 @@ public class MaxHeapTest extends TestCase {
             assertEquals(max.getKey(), removed.getKey());
             assertEquals(moved.getKey(), removed.getKey());
         }
+    }
+    
+    public void testHeapSort()  throws FileNotFoundException {
+        RAFile toBeSorted = new RAFile("src/test/p3_input_sample.dat");
+        short bufferNum = Short.valueOf("4");
+        int recordNum = toBeSorted.recordNum();
+        BufferPool pool = new BufferPool(toBeSorted, bufferNum, recordNum);
+        MaxHeap heap = new MaxHeap(pool);
         
+        heap.heapSort();
         
-        
-        
+        try {
+            CheckFile sorted = new CheckFile();
+            assertTrue(sorted.checkFile("src/test/p3_input_sample.dat"));
+        }
+        catch (Exception e) {
+        }
     }
 
 }
