@@ -62,6 +62,24 @@ public class BufferPoolTest extends TestCase {
 
 
     /**
+     * Tests the flush method
+     */
+    public void testFlush() {
+        Record newRec1 = test.read(0);
+        Record newRec2 = test.read(1024);
+        Record newRec3 = test.read(2048);
+        test.read(3072);
+        test.write(-1, newRec1);
+        test.write(0, newRec1);
+        test.write(1024, newRec2);
+        test.write(2048, newRec3);
+        test.write(2048, newRec3);
+        test.flush();
+        assertEquals(newRec3.getKey(), test.read(2048).getKey());
+    }
+
+
+    /**
      * Tests the read method
      */
     public void testRead() {

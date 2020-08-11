@@ -204,17 +204,4 @@ public class BufferPool {
     public BufferStatistics getStats() {
         return stats;
     }
-
-
-    public String toString() {
-        pool.moveToStart();
-        String ans = "[";
-        for (int i = 0; i < pool.length() - 1; i++) {
-            ans += pool.getValue().index() + ", ";
-            pool.next();
-        }
-        ans += pool.getValue().index() + "]";
-        pool.moveToStart();
-        return ans;
-    }
 }
