@@ -133,10 +133,8 @@ public class MaxHeap {
         int count = 0;
         for (int i = size - 1; i > 0; i--) {
             Record max = removeMax();
-            //System.out.println(i + " | " + max.getKey());
             count++;
         }
-        System.out.println(count + " | " + size);
         pool.flush();
         return pool.getStats();
     }

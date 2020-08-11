@@ -52,8 +52,7 @@ public class MaxHeapTest extends TestCase {
         heap.buildHeap();
         assertTrue(pool.read(0).getKey() > pool.read(1).getKey());
         assertTrue(pool.read(25).getKey() > pool.read(51).getKey());
-        assertTrue(pool.read(100).getKey() > pool.read(102).getKey());
-        assertTrue(pool.read(0).getKey() > pool.read(500).getKey());
+        assertTrue(pool.read(100).getKey() > pool.read(202).getKey());
     }
     
     /**

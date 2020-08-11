@@ -107,7 +107,6 @@ public class RAFile {
      * @return boolean on success
      */
     public boolean write(Record[] newRecords, int loc) {
-        //System.out.println("-----------------write: " + loc + "------------------------------");
         // set location to
         loc = loc * bufferRecordSize;
         try {
@@ -118,7 +117,6 @@ public class RAFile {
             for (int i = 0; i < newRecords.length; i++) {
                 short k = newRecords[i].getKey();
                 short v = newRecords[i].getValue();
-                //System.out.println("key: " + k + "\tvalue: " + v);
                 file.writeShort(k);
                 file.writeShort(v);
             }

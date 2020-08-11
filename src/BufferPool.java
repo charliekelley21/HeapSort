@@ -70,7 +70,7 @@ public class BufferPool {
         if (index < 0 || index >= numRecords) {
             // The heap should not be making read calls that are out of bounds
             System.out.println("Invalid address at: " + index);
-            throw new ArrayIndexOutOfBoundsException();
+            return null;
         }
         // convert index to Buffer num
         int bufferIndex = recordNumToBlockNum(index);
@@ -158,13 +158,11 @@ public class BufferPool {
         stats.diskRead();
         file.open();
         if (pool.length() == maxBuffers) {
-            System.out.println("Overflowed Pool " + toString());
             pool.moveToEnd();
             pool.prev();
             Buffer stale = pool.remove();
             // Do we need to write?
             if (stale.dirty()) {
-                System.out.println("Write Buffer " + stale.index());
                 file.write(stale.records(), stale.index());
                 stats.diskWrite();
             }
@@ -173,8 +171,6 @@ public class BufferPool {
         // add newBuffer to start of list
         pool.moveToStart();
         pool.insert(newBuffer);
-        System.out.println("Read Buffer " + newBuffer.index());
-        System.out.println("New Pool " + toString());
         file.close();
 
         return newBuffer;
@@ -188,14 +184,12 @@ public class BufferPool {
         // adding a new buffer requires a disk read
         file.open();
         pool.moveToStart();
-        System.out.println("-------------------------------------" + pool.length());
         pool.moveToStart();
         while (!pool.isAtEnd()) {
-            System.out.println("-------------------------" + pool.currPos());
             Buffer curr = pool.remove();
-            System.out.println("----------------Write Buffer " + curr.index());
-            file.write(curr.records(), curr.index());
-            //pool.next();
+            if (curr.dirty()) {
+                file.write(curr.records(), curr.index());
+            }
         }
         pool.moveToStart();
         file.close();
