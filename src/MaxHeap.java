@@ -62,6 +62,7 @@ public class MaxHeap {
      */
     private void buildHeap() {
         for (int i = (size / 2) - 1; i >= 0; i--) {
+            System.out.println("Heapify(" + i + ")");
             heapify(i);
         }
     }
@@ -132,7 +133,7 @@ public class MaxHeap {
         // not being read in as null, so must be written as null.
         for (int i = 0; i < numRecords; i++) {
             Record max = removeMax();
-            //System.out.println(max.getKey());
+            System.out.println(max.getKey());
         }
         return pool.getStats();
     }

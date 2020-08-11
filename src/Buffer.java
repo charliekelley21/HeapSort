@@ -80,8 +80,8 @@ public class Buffer {
     public Record[] records() {
         return library;
     }
-    
-    
+
+
     /**
      * Location of the buffer.
      * 
