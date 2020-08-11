@@ -20,7 +20,7 @@ public class BufferPoolTest extends TestCase {
      *             Will never be thrown
      */
     public void setUp() throws FileNotFoundException {
-        RAFile file = new RAFile("src/test/p3_input_sample.dat");
+        RAFile file = new RAFile("src/test/p3_input_sample.txt");
         test = new BufferPool(file, 2, file.recordNum());
     }
 

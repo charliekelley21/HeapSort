@@ -27,7 +27,7 @@ public class MaxHeapTest extends TestCase {
         assertNull(test.getPool());
         assertEquals(test.heapSize(), 0);
         
-        RAFile toBeSorted = new RAFile("src/test/p3_input_sample.dat");
+        RAFile toBeSorted = new RAFile("src/test/p3_input_sample.txt");
         short bufferNum = Short.valueOf("4");
         int recordNum = toBeSorted.recordNum();
         BufferPool pool = new BufferPool(toBeSorted, bufferNum, recordNum);

@@ -18,7 +18,7 @@ public class RAFileTest extends TestCase {
      */
     public void setUp() {
         try {
-            test = new RAFile("src/test/p3_input_sample.dat");
+            test = new RAFile("src/test/p3_input_sample.txt");
         }
         catch (FileNotFoundException e) {
         }

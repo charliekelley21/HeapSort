@@ -20,7 +20,7 @@ public class HeapSortTest extends TestCase {
     public void testMain() throws FileNotFoundException {
         HeapSort test = new HeapSort();
 
-        test.main(new String[] { "src/test/p3_input_sample.dat", "4",
+        test.main(new String[] { "src/test/p3_input_sample.txt", "4",
             "output.txt" });
         assertEquals("5 8404 8131 244 16634 2746 24619 6627", systemOut()
             .getHistory().trim());
