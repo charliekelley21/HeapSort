@@ -12,7 +12,6 @@ import org.junit.Test;
 
 public class HeapSortTest extends TestCase {
     
-    
     /**
      * An integration test for the whole project
      * 

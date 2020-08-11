@@ -69,6 +69,7 @@ public class BufferPool {
     public Record read(int index) {
         if (index < 0 || index >= numRecords) {
             // The heap should not be making read calls that are out of bounds
+            System.out.println("Invalid address at: " + index);
             throw new ArrayIndexOutOfBoundsException();
         }
         // convert index to Buffer num

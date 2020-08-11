@@ -55,12 +55,21 @@ public class MaxHeap {
     public int heapSize() {
         return size;
     }
+    
+    /**
+     * method to swap two indexes
+     */
+    private void swap(int first, int second) {
+        Record one = pool.read(first);
+        pool.write(first, pool.read(second));
+        pool.write(second,  one);
+    }
 
 
     /**
      * Will construct a max heap from the items in heap
      */
-    private void buildHeap() {
+    public void buildHeap() {
         for (int i = (size / 2) - 1; i >= 0; i--) {
             heapify(i);
         }
@@ -77,25 +86,24 @@ public class MaxHeap {
         if ((pos < 0) || (pos >= size / 2)) {
             return;
         }
-        Record curr = pool.read(pos);
-        int childIndex = 2 * pos + 1;
-        if (childIndex < (size - 1)) {
-            Record swap = pool.read(childIndex);
-            Record right = pool.read(childIndex + 1);
-            // right child is the greater of the two
-            if (Short.compare(swap.getKey(), right.getKey()) < 0) {
-                childIndex++;
-                swap = right;
-            }
-            if (Short.compare(curr.getKey(), swap.getKey()) >= 0) {
-                return;
-            }
-            pool.write(pos, swap);
-            pool.write(childIndex, curr);
+        int largest = pos;
+        int l = 2*pos + 1;
+        int r = 2*pos + 2;
+        // if left child is larger than root
+        if ((l < size) && (pool.read(l).getKey() > pool.read(pos).getKey())) {
+            largest = l;
+        }        
+        // if right child is larger than the largest so far
+        if ((r < size) && (pool.read(r).getKey() > pool.read(largest).getKey())) {
+            largest = r;
         }
-        heapify(childIndex);
+        // if largest isnt the root
+        if (largest != pos) {
+            swap(pos, largest);
+            heapify(largest);
+        }
+        
     }
-
 
     /**
      * This removes the maximum value from the heap and decreases the size of
@@ -106,7 +114,7 @@ public class MaxHeap {
     private Record removeMax() {
         // error were last index in buffer array is null.
         // not being read in as null, so must be written as null.
-        if (size <= 0) {
+        if (size == 0) {
             return null;
         }
         size--;
@@ -127,21 +135,13 @@ public class MaxHeap {
      * @return
      */
     public BufferStatistics heapSort() {
-        // error were last index in buffer array is null.
-        // not being read in as null, so must be written as null.
-        short last = pool.read(0).getKey();
         int count = 0;
-        for (int i = numRecords - 1; i > 0; i--) {
+        for (int i = 0; i < numRecords; i++) {
             Record max = removeMax();
-            if (Short.compare(max.getKey(), last) > 0) {
-                System.out.println(count);
-                return null;
-            }
-            last = max.getKey();
             System.out.println(max.getKey());
             count++;
         }
-        System.out.println(count);
+        System.out.println(count + " | " + size);
         return pool.getStats();
     }
 
