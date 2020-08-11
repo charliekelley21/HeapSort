@@ -21,7 +21,7 @@ public class MaxHeapTest extends TestCase {
 
 
     /**
-     * This will test the constructors for MinHeap
+     * This will test the constructors for MaxHeap
      */
     public void testConstructors()  throws FileNotFoundException {
         assertNull(test.getPool());
@@ -40,7 +40,7 @@ public class MaxHeapTest extends TestCase {
     }
     
     /**
-     * This will test the constructors for MinHeap
+     * This will test the buildHeap method for MaxHeap
      */
     public void testBuildHeap()  throws FileNotFoundException {        
         RAFile toBeSorted = new RAFile("src/test/p3_input_sample.dat");
@@ -54,6 +54,63 @@ public class MaxHeapTest extends TestCase {
         assertTrue(pool.read(25).getKey() > pool.read(51).getKey());
         assertTrue(pool.read(100).getKey() > pool.read(102).getKey());
         assertTrue(pool.read(0).getKey() > pool.read(500).getKey());
+    }
+    
+    /**
+     * This will test the removeMax method for MaxHeap
+     */
+    public void testRemoveMax()  throws FileNotFoundException {
+        MaxHeap heap = new MaxHeap();
+        assertNull(heap.removeMax());
+        
+        RAFile toBeSorted = new RAFile("src/test/p3_input_sample.dat");
+        short bufferNum = Short.valueOf("4");
+        int recordNum = toBeSorted.recordNum();
+        BufferPool pool = new BufferPool(toBeSorted, bufferNum, recordNum);
+        heap = new MaxHeap(pool);        
+        heap.buildHeap();
+        
+        Record max = pool.read(0);
+        Record removed = heap.removeMax();
+        Record moved = pool.read(4095);
+        
+        assertEquals(max.getKey(), removed.getKey());
+        assertEquals(moved.getKey(), removed.getKey());
+        
+        max = pool.read(0);
+        removed = heap.removeMax();
+        moved = pool.read(4094);
+        
+        assertEquals(max.getKey(), removed.getKey());
+        assertEquals(moved.getKey(), removed.getKey());
+    }
+    
+    /**
+     * This will test the heapSort method for MaxHeap
+     */
+    public void testHeapSort()  throws FileNotFoundException {
+        RAFile toBeSorted = new RAFile("src/test/p3_input_sample.dat");
+        short bufferNum = Short.valueOf("4");
+        int recordNum = toBeSorted.recordNum();
+        BufferPool pool = new BufferPool(toBeSorted, bufferNum, recordNum);
+        MaxHeap heap = new MaxHeap(pool);
+        
+        int last = pool.read(0).getKey();
+        
+        //heap.heapSort();
+        for (int i = 4095; i > 0; i--) {
+            assertTrue(pool.read(0).getKey() <= last);
+            last = pool.read(0).getKey();
+            Record max = pool.read(0);
+            Record removed = heap.removeMax();
+            Record moved = pool.read(i);
+            assertEquals(max.getKey(), removed.getKey());
+            assertEquals(moved.getKey(), removed.getKey());
+        }
+        
+        
+        
+        
     }
 
 }

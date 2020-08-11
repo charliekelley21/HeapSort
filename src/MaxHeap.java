@@ -71,7 +71,6 @@ public class MaxHeap {
      */
     public void buildHeap() {
         for (int i = (size / 2) - 1; i >= 0; i--) {
-            System.out.println("Heapify(" + i + ")");
             heapify(i);
         }
     }
@@ -112,21 +111,16 @@ public class MaxHeap {
      *
      * @return the Record with the maximum key value
      */
-    private Record removeMax() {
+    public Record removeMax() {
         // error were last index in buffer array is null.
         // not being read in as null, so must be written as null.
         if (size == 0) {
             return null;
         }
-        size--;
-        Record max = pool.read(0);
-        Record rm = pool.read(size);
-        // first loop we are writing null values, interestingly lots of values
-        // in first buffer are null.
-        pool.write(0, rm);
-        pool.write(size, max);
+        this.size--;
+        swap(0, size);
         heapify(0);
-        return max;
+        return pool.read(size);
     }
 
 
@@ -137,9 +131,9 @@ public class MaxHeap {
      */
     public BufferStatistics heapSort() {
         int count = 0;
-        for (int i = 0; i < numRecords; i++) {
+        for (int i = size - 1; i > 0; i--) {
             Record max = removeMax();
-            System.out.println(max.getKey());
+            System.out.println(i + " | " + max.getKey());
             count++;
         }
         System.out.println(count + " | " + size);
