@@ -134,9 +134,7 @@ public class MaxHeap {
         int count = 0;
         for (int i = numRecords - 1; i > 0; i--) {
             Record max = removeMax();
-<<<<<<< HEAD
             System.out.println(max.getKey());
-=======
             if (Short.compare(max.getKey(), last) > 0) {
                 System.out.println(count);
                 return null;
@@ -144,7 +142,6 @@ public class MaxHeap {
             last = max.getKey();
             System.out.println(max.getKey());
             count++;
->>>>>>> refs/remotes/origin/master
         }
         System.out.println(count);
         return pool.getStats();
