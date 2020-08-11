@@ -188,13 +188,14 @@ public class BufferPool {
         // adding a new buffer requires a disk read
         file.open();
         pool.moveToStart();
-        for (int i = 0; i < pool.length(); i++) {
+        System.out.println("-------------------------------------" + pool.length());
+        pool.moveToStart();
+        while (!pool.isAtEnd()) {
+            System.out.println("-------------------------" + pool.currPos());
             Buffer curr = pool.remove();
-            if (curr.dirty()) {
-                System.out.println("Write Dirty Buffer " + curr.index());
-                file.write(curr.records(), curr.index());
-            }            
-            pool.next();
+            System.out.println("----------------Write Buffer " + curr.index());
+            file.write(curr.records(), curr.index());
+            //pool.next();
         }
         pool.moveToStart();
         file.close();

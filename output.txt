@@ -1,6 +1,6 @@
 File name: output.txt
-Cache Hits: 363519
+Cache Hits: 357519
 Cache Misses: 4
 Disk Reads: 4
 Disk Writes: 0
-Time To Sort: 193
+Time To Sort: 295

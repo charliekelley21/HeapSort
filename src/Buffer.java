@@ -56,7 +56,7 @@ public class Buffer {
      */
     public void setRecord(int loc, Record r) {
         if (!dirty) {
-            dirty = true;
+            this.dirty = true;
         }
         library[loc % 1024] = r;
     }

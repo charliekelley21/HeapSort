@@ -107,6 +107,13 @@ public class MaxHeapTest extends TestCase {
             assertEquals(max.getKey(), removed.getKey());
             assertEquals(moved.getKey(), removed.getKey());
         }
+        pool.flush();
+        try {
+            CheckFile sorted = new CheckFile();
+            assertTrue(sorted.checkFile("src/test/p3_input_sample.dat"));
+        }
+        catch (Exception e) {
+        }
     }
     
     public void testHeapSort()  throws FileNotFoundException {
@@ -117,13 +124,14 @@ public class MaxHeapTest extends TestCase {
         MaxHeap heap = new MaxHeap(pool);
         
         heap.heapSort();
-        
         try {
             CheckFile sorted = new CheckFile();
             assertTrue(sorted.checkFile("src/test/p3_input_sample.dat"));
         }
         catch (Exception e) {
         }
+        
+        
     }
 
 }

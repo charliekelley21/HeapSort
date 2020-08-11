@@ -50,7 +50,7 @@ public class CheckFile
                 if (key1 > key2)
                 {
                     isError = true;
-                    System.out.println("key1: " + key1 + " key2: " + key2);
+                    //System.out.println("key1: " + key1 + " key2: " + key2);
                 }
             }
         }
