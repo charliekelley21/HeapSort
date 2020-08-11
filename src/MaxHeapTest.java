@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import student.TestCase;
 
 /**
@@ -23,7 +24,8 @@ public class MaxHeapTest extends TestCase {
      * This will test the constructors for MinHeap
      */
     public void testConstructors() {
-        
+        assertNull(test.getPool());
+        assertEquals(test.heapSize(), 0);
     }
 
 }

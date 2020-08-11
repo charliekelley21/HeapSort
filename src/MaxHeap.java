@@ -19,6 +19,7 @@ public class MaxHeap {
     public MaxHeap() {
         numRecords = 0;
         size = 0;
+        pool = null;
     }
 
 
@@ -37,24 +38,22 @@ public class MaxHeap {
 
 
     /**
+     * Getter for the MaxHeap pool object, helper for testing
+     * 
+     * @return internal pool
+     */
+    public BufferPool getPool() {
+        return pool;
+    }
+
+
+    /**
      * Getter for the size of the maxHeap
      *
      * @return size
      */
     public int heapSize() {
         return size;
-    }
-
-
-    /**
-     * Determines if the current position is a leaf node
-     *
-     * @param pos
-     *            current position
-     * @return true if node is a leaf, else false
-     */
-    boolean isLeaf(int pos) {
-        return (pos >= size / 2) && (pos < size);
     }
 
 
@@ -84,11 +83,11 @@ public class MaxHeap {
             Record swap = pool.read(childIndex);
             Record right = pool.read(childIndex + 1);
             // right child is the greater of the two
-            if (swap.getKey() < right.getKey()) {
+            if (Short.compare(swap.getKey(), right.getKey()) < 0) {
                 childIndex++;
                 swap = right;
             }
-            if (curr.getKey() >= swap.getKey()) {
+            if (Short.compare(curr.getKey(), swap.getKey()) >= 0) {
                 return;
             }
             pool.write(pos, swap);
@@ -132,7 +131,8 @@ public class MaxHeap {
         // error were last index in buffer array is null.
         // not being read in as null, so must be written as null.
         for (int i = 0; i < numRecords; i++) {
-            removeMax();
+            Record max = removeMax();
+            //System.out.println(max.getKey());
         }
         return pool.getStats();
     }
