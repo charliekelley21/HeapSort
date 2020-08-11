@@ -158,11 +158,13 @@ public class BufferPool {
         stats.diskRead();
         file.open();
         if (pool.length() == maxBuffers) {
+            System.out.println("Overflowed Pool " + toString());
             pool.moveToEnd();
             pool.prev();
             Buffer stale = pool.remove();
             // Do we need to write?
             if (stale.dirty()) {
+                System.out.println("Write Buffer " + stale.index());
                 file.write(stale.records(), stale.index());
                 stats.diskWrite();
             }
@@ -171,6 +173,8 @@ public class BufferPool {
         // add newBuffer to start of list
         pool.moveToStart();
         pool.insert(newBuffer);
+        System.out.println("Read Buffer " + newBuffer.index());
+        System.out.println("New Pool " + toString());
         file.close();
 
         return newBuffer;
@@ -186,6 +190,7 @@ public class BufferPool {
         pool.moveToStart();
         for (int i = 0; i < pool.length(); i++) {
             Buffer curr = pool.remove();
+            System.out.println("Write Buffer " + curr.index());
             file.write(curr.records(), curr.index());
             pool.next();
         }
@@ -201,5 +206,18 @@ public class BufferPool {
      */
     public BufferStatistics getStats() {
         return stats;
+    }
+
+
+    public String toString() {
+        pool.moveToStart();
+        String ans = "[";
+        for (int i = 0; i < pool.length() - 1; i++) {
+            ans += pool.getValue().index() + ", ";
+            pool.next();
+        }
+        ans += pool.getValue().index() + "]";
+        pool.moveToStart();
+        return ans;
     }
 }

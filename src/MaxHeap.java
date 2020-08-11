@@ -39,7 +39,7 @@ public class MaxHeap {
 
     /**
      * Getter for the MaxHeap pool object, helper for testing
-     * 
+     *
      * @return internal pool
      */
     public BufferPool getPool() {
@@ -55,7 +55,7 @@ public class MaxHeap {
     public int heapSize() {
         return size;
     }
-    
+
     /**
      * method to swap two indexes
      */
@@ -71,6 +71,7 @@ public class MaxHeap {
      */
     public void buildHeap() {
         for (int i = (size / 2) - 1; i >= 0; i--) {
+            System.out.println("Heapify(" + i + ")");
             heapify(i);
         }
     }
@@ -92,7 +93,7 @@ public class MaxHeap {
         // if left child is larger than root
         if ((l < size) && (pool.read(l).getKey() > pool.read(pos).getKey())) {
             largest = l;
-        }        
+        }
         // if right child is larger than the largest so far
         if ((r < size) && (pool.read(r).getKey() > pool.read(largest).getKey())) {
             largest = r;
@@ -102,7 +103,7 @@ public class MaxHeap {
             swap(pos, largest);
             heapify(largest);
         }
-        
+
     }
 
     /**
