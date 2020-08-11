@@ -190,8 +190,10 @@ public class BufferPool {
         pool.moveToStart();
         for (int i = 0; i < pool.length(); i++) {
             Buffer curr = pool.remove();
-            System.out.println("Write Buffer " + curr.index());
-            file.write(curr.records(), curr.index());
+            if (curr.dirty()) {
+                System.out.println("Write Dirty Buffer " + curr.index());
+                file.write(curr.records(), curr.index());
+            }            
             pool.next();
         }
         pool.moveToStart();
