@@ -116,7 +116,6 @@ public class MaxHeap {
         // in first buffer are null.
         pool.write(0, rm);
         pool.write(size, max);
-        // size--;
         heapify(0);
         return max;
     }
