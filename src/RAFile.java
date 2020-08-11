@@ -1,6 +1,7 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
 
 /**
  * The file that manages the reads and writes directly to and from disk
@@ -84,10 +85,12 @@ public class RAFile {
         Record[] records = new Record[bufferRecordSize / 4];
         try {
             file.seek(loc);
+            byte[] readBytes = new byte[bufferRecordSize];
+            file.read(readBytes);
+            short[] shorts = new short[readBytes.length / 2];
+            ByteBuffer.wrap(readBytes).asShortBuffer().get(shorts);
             for (int i = 0; i < records.length; i++) {
-                short k = file.readShort();
-                short v = file.readShort();
-                records[i] = new Record(k, v);
+                records[i] = new Record(shorts[2 * i], shorts[2 * i + 1]);
             }
         }
         catch (IOException e) {
@@ -114,12 +117,14 @@ public class RAFile {
                 return false;
             }
             file.seek(loc);
+            byte[] writeBytes = new byte[bufferRecordSize];
+            short[] shorts = new short[writeBytes.length / 2];
             for (int i = 0; i < newRecords.length; i++) {
-                short k = newRecords[i].getKey();
-                short v = newRecords[i].getValue();
-                file.writeShort(k);
-                file.writeShort(v);
+                shorts[2 * i] = newRecords[i].getKey();
+                shorts[2 * i + 1] = newRecords[i].getValue();
             }
+            ByteBuffer.wrap(writeBytes).asShortBuffer().put(shorts);
+            file.write(writeBytes);
         }
         catch (IOException e) {
             return false;
