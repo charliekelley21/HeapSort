@@ -20,7 +20,8 @@ public class RecordTest extends TestCase {
         short k = 15;
         short v = 60;
         test = new Record(k, v);
-        k = v = 45;
+        k = 45;
+        v = 45;
         test2 = new Record(k, v);
     }
 

@@ -52,8 +52,8 @@ public class LList implements List {
     /**
      * Insert "newDigit" at current position
      * 
-     * @param newDigit
-     *            int to be inserted to Linked List
+     * @param newBuff
+     *            buffer to be inserted to Linked List
      * @return Boolean for successful appending
      */
     public boolean insert(Buffer newBuff) {
@@ -70,8 +70,8 @@ public class LList implements List {
     /**
      * append "newDigit" at end of Linked List
      * 
-     * @param newDigit
-     *            int to be inserted to Linked List
+     * @param newBuff
+     *            buffer to be inserted to Linked List
      * @return Boolean for successful appending
      */
     public boolean append(Buffer newBuff) {
@@ -216,7 +216,7 @@ public class LList implements List {
     /**
      * Get the value assigned to the Link the is currently being pointed to
      * 
-     * @return value of Link that curr points to
+     * @return Buffer of Link that curr points to
      */
     public Buffer getValue() throws NoSuchElementException {
         if (curr == tail) {

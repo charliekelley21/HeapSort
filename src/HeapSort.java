@@ -46,7 +46,7 @@ public class HeapSort {
             for (int j = 0; j < itemsPerLine; j++) {
                 // guarantee no array out of bounds
                 int index = itemsPerLine * i + j;
-                if (!(index >= answers.length)) {
+                if (index < answers.length) {
                     System.out.print(answers[index].getKey() + " "
                         + answers[index].getValue() + " ");
                 }

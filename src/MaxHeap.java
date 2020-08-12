@@ -56,13 +56,14 @@ public class MaxHeap {
         return size;
     }
 
+
     /**
      * method to swap two indexes
      */
     private void swap(int first, int second) {
         Record one = pool.read(first);
         pool.write(first, pool.read(second));
-        pool.write(second,  one);
+        pool.write(second, one);
     }
 
 
@@ -87,14 +88,15 @@ public class MaxHeap {
             return;
         }
         int largest = pos;
-        int l = 2*pos + 1;
-        int r = 2*pos + 2;
+        int l = 2 * pos + 1;
+        int r = 2 * pos + 2;
         // if left child is larger than root
         if ((l < size) && (pool.read(l).getKey() > pool.read(pos).getKey())) {
             largest = l;
         }
         // if right child is larger than the largest so far
-        if ((r < size) && (pool.read(r).getKey() > pool.read(largest).getKey())) {
+        if ((r < size) && (pool.read(r).getKey() > pool.read(largest)
+            .getKey())) {
             largest = r;
         }
         // if largest isnt the root
@@ -104,6 +106,7 @@ public class MaxHeap {
         }
 
     }
+
 
     /**
      * This removes the maximum value from the heap and decreases the size of
@@ -130,10 +133,8 @@ public class MaxHeap {
      * @return
      */
     public BufferStatistics heapSort() {
-        int count = 0;
         for (int i = size - 1; i > 0; i--) {
-            Record max = removeMax();
-            count++;
+            removeMax();
         }
         pool.flush();
         return pool.getStats();

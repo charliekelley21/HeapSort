@@ -3,7 +3,7 @@ import java.util.NoSuchElementException;
 /**
  * List class ADT to store integer values.
  * Copyright 2016 by OpenDSA Project Contributors and distributed under
- *     an MIT license
+ * an MIT license
  * 
  * @author Charlie Kelley (charlk21)
  * @version 2020.08.05
@@ -20,8 +20,8 @@ public interface List {
      * Insert "it" at the current location. The client must ensure that the
      * list's capacity is not exceeded
      * 
-     * @param newDigit
-     *            value to be inserted
+     * @param newBuffer
+     *            buffer to be inserted
      * @return successful insert
      */
     public boolean insert(Buffer newBuffer);
@@ -31,8 +31,8 @@ public interface List {
      * Append "it" at the end of the list. The client must ensure that the
      * list's capacity is not exceeded
      * 
-     * @param newDigit
-     *            value appended
+     * @param newBuffer
+     *            buffer appended
      * @return successful append
      */
     public boolean append(Buffer newBuffer);
@@ -41,7 +41,7 @@ public interface List {
     /**
      * Remove and return the current element
      * 
-     * @return value removed
+     * @return Buffer value removed
      * @throws NoSuchElementException
      */
     public Buffer remove() throws NoSuchElementException;
@@ -109,7 +109,7 @@ public interface List {
     /**
      * Return the current element
      * 
-     * @return current value
+     * @return Buffer current value
      * @throws NoSuchElementException
      */
     public Buffer getValue() throws NoSuchElementException;

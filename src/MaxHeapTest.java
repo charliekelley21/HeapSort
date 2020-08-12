@@ -22,6 +22,9 @@ public class MaxHeapTest extends TestCase {
 
     /**
      * This will test the constructors for MaxHeap
+     * 
+     * @throws FileNotFoundException
+     *             if file not found
      */
     public void testConstructors() throws FileNotFoundException {
         assertNull(test.getPool());
@@ -42,6 +45,9 @@ public class MaxHeapTest extends TestCase {
 
     /**
      * This will test the buildHeap method for MaxHeap
+     * 
+     * @throws FileNotFoundException
+     *             if file not found
      */
     public void testBuildHeap() throws FileNotFoundException {
         RAFile toBeSorted = new RAFile("src/test/p3_input_sample.txt");
@@ -59,6 +65,9 @@ public class MaxHeapTest extends TestCase {
 
     /**
      * This will test the removeMax method for MaxHeap
+     * 
+     * @throws FileNotFoundException
+     *             if file not found
      */
     public void testRemoveMax() throws FileNotFoundException {
         MaxHeap heap = new MaxHeap();
@@ -89,6 +98,9 @@ public class MaxHeapTest extends TestCase {
 
     /**
      * This will test the heapSort method for MaxHeap
+     * 
+     * @throws FileNotFoundException
+     *             if file not found
      */
     public void testHeapSortWithRemove() throws FileNotFoundException {
         RAFile toBeSorted = new RAFile("src/test/p3_input_sample.txt");
@@ -115,10 +127,17 @@ public class MaxHeapTest extends TestCase {
             assertTrue(sorted.checkFile("src/test/p3_input_sample.txt"));
         }
         catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
 
+    /**
+     * Tests the heapsort method
+     * 
+     * @throws FileNotFoundException
+     *             if file not found
+     */
     public void testHeapSort() throws FileNotFoundException {
         RAFile toBeSorted = new RAFile("src/test/p3_input_sample.txt");
         short bufferNum = Short.valueOf("4");
@@ -132,8 +151,7 @@ public class MaxHeapTest extends TestCase {
             assertTrue(sorted.checkFile("src/test/p3_input_sample.txt"));
         }
         catch (Exception e) {
+            e.printStackTrace();
         }
-
     }
-
 }

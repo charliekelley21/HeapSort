@@ -13,7 +13,12 @@ public class Buffer {
     private boolean dirty;
 
     /**
-     * The constructor for the Buffer class
+     * Buffer constructor
+     * 
+     * @param i
+     *            the bufferIndex
+     * @param lib
+     *            The records
      */
     public Buffer(int i, Record[] lib) {
         library = lib;
