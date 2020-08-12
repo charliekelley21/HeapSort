@@ -52,7 +52,6 @@ public class BufferPoolTest extends TestCase {
         Record newRec2 = test.read(1024);
         Record newRec3 = test.read(2048);
         test.read(3072);
-        test.write(-1, newRec1);
         test.write(0, newRec1);
         test.write(1024, newRec2);
         test.write(2048, newRec3);
@@ -69,7 +68,6 @@ public class BufferPoolTest extends TestCase {
         Record newRec2 = test.read(1024);
         Record newRec3 = test.read(2048);
         test.read(3072);
-        test.write(-1, newRec1);
         test.write(0, newRec1);
         test.write(1024, newRec2);
         test.write(2048, newRec3);
@@ -87,7 +85,6 @@ public class BufferPoolTest extends TestCase {
         Record newRec2 = test.read(1024);
         Record newRec3 = test.read(2048);
         test.read(3072);
-        assertNull(test.read(-1));
         assertNotNull(newRec1.getKey());
         assertNotNull(newRec2.getKey());
         assertNotNull(newRec3.getKey());

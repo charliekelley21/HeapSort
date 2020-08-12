@@ -67,11 +67,6 @@ public class BufferPool {
      * @return desired Record or null if out of bounds
      */
     public Record read(int index) {
-        if (index < 0 || index >= numRecords) {
-            // The heap should not be making read calls that are out of bounds
-            System.out.println("Invalid address at: " + index);
-            return null;
-        }
         // convert index to Buffer num
         int bufferIndex = recordNumToBlockNum(index);
         // search pool for buffer with curr index
@@ -110,10 +105,6 @@ public class BufferPool {
      *            The new Record to be store into the buffer.
      */
     public void write(int index, Record updated) {
-        if (index < 0 || index >= numRecords) {
-            // out of bounds of the input file
-            return;
-        }
         // search buffer pool, if there update stats and buffer end
         int bufferIndex = recordNumToBlockNum(index);
         for (int i = 0; i < pool.length(); i++) {
@@ -179,6 +170,8 @@ public class BufferPool {
 
     /**
      * Flushes the remaining Buffers in the Buffer pool to write to disk.
+     * 
+     * @return int the number of buffers flushed
      */
     public int flush() {
         // adding a new buffer requires a disk read
@@ -188,9 +181,7 @@ public class BufferPool {
         pool.moveToStart();
         while (!pool.isAtEnd()) {
             Buffer curr = pool.remove();
-            if (curr.dirty()) {
-                file.write(curr.records(), curr.index());
-            }
+            file.write(curr.records(), curr.index());
         }
         pool.moveToStart();
         file.close();
