@@ -21,6 +21,7 @@ public class RAFileTest extends TestCase {
             test = new RAFile("src/test/p3_input_sample.txt");
         }
         catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 

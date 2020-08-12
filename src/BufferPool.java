@@ -180,9 +180,10 @@ public class BufferPool {
     /**
      * Flushes the remaining Buffers in the Buffer pool to write to disk.
      */
-    public void flush() {
+    public int flush() {
         // adding a new buffer requires a disk read
         file.open();
+        int ans = pool.length();
         pool.moveToStart();
         pool.moveToStart();
         while (!pool.isAtEnd()) {
@@ -193,6 +194,8 @@ public class BufferPool {
         }
         pool.moveToStart();
         file.close();
+
+        return ans;
     }
 
 

@@ -56,6 +56,7 @@ public class RAFile {
             file.close();
         }
         catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -68,6 +69,7 @@ public class RAFile {
             file = new RandomAccessFile(fName, "rw");
         }
         catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
@@ -150,6 +152,7 @@ public class RAFile {
                 answer[i] = newInsert;
             }
             catch (IOException e) {
+                return null;
             }
         }
         return answer;

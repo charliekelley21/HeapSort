@@ -34,6 +34,7 @@ public class HeapSort {
         long initTime = System.currentTimeMillis();
         MaxHeap heap = new MaxHeap(pool);
         BufferStatistics output = heap.heapSort();
+        int flushed = pool.flush();
         long totalTime = System.currentTimeMillis() - initTime;
 
         toBeSorted.open();
@@ -64,7 +65,8 @@ public class HeapSort {
             writer.append("Cache Hits: " + output.getHits() + "\n");
             writer.append("Cache Misses: " + output.getMisses() + "\n");
             writer.append("Disk Reads: " + output.getDiskReads() + "\n");
-            writer.append("Disk Writes: " + output.getDiskWrites() + "\n");
+            writer.append("Disk Writes: " + (output.getDiskWrites() + flushed)
+                + "\n");
             writer.append("Time To Sort: " + totalTime);
             writer.close();
         }

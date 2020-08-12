@@ -26,7 +26,7 @@ public class MaxHeap {
     /**
      * The public constructor for MaxHeap
      *
-     * @param newPool
+     * @param pool
      *            BufferPool used by MaxHeap
      */
     public MaxHeap(BufferPool pool) {
@@ -130,13 +130,12 @@ public class MaxHeap {
     /**
      * Heap sort algorithm performed on a set of Records
      *
-     * @return
+     * @return stats for the stat file.
      */
     public BufferStatistics heapSort() {
         for (int i = size - 1; i > 0; i--) {
             removeMax();
         }
-        pool.flush();
         return pool.getStats();
     }
 
